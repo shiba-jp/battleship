@@ -23,3 +23,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
     failed.setPosition(17, 18)
     failed.startEffect(effects.bubbles, 1000)
 })
+
+controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
+    let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_FAILED)
+    sccess.setPosition(136, 60)
+    sccess.startEffect(effects.fire, 1000)
+})
