@@ -248,13 +248,22 @@ namespace BattleshipImages {
     }
 
     export class MapItem {
-        static ATTACK_FAILED: Image = img`
-            d . . . . d
-            . d . . d .
-            . . d d . .
-            . . d d . .
-            . d . . d .
-            d . . . . d
+        static ATTACK_MISS: Image = img`
+            d 8 8 8 8 d
+            8 d 8 8 d 8
+            8 8 d d 8 8
+            8 8 d d 8 8
+            8 d 8 8 d 8
+            d 8 8 8 8 d
+        `;
+
+        static ATTACK_HIT: Image = img`
+            8 8 2 2 8 8
+            8 2 2 2 2 8
+            2 2 8 8 2 2
+            2 2 8 8 2 2
+            8 2 2 2 2 8
+            8 8 2 2 8 8
         `;
     }
 }
