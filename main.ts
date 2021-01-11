@@ -1,3 +1,3 @@
  scene.setBackgroundImage(BattleshipImages.Background.TITLE_SCREEN)
-pause(2000)
+game.waitAnyButton()
  scene.setBackgroundImage(BattleshipImages.Background.MAIN_SCREEN)
