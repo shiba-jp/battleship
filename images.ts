@@ -249,21 +249,34 @@ namespace BattleshipImages {
 
     export class MapItem {
         static ATTACK_MISS: Image = img`
-            d 8 8 8 8 d
-            8 d 8 8 d 8
-            8 8 d d 8 8
-            8 8 d d 8 8
-            8 d 8 8 d 8
-            d 8 8 8 8 d
+            d . . . . d
+            . d . . d .
+            . . d d . .
+            . . d d . .
+            . d . . d .
+            d . . . . d
         `;
 
         static ATTACK_HIT: Image = img`
-            8 8 2 2 8 8
-            8 2 2 2 2 8
-            2 2 8 8 2 2
-            2 2 8 8 2 2
-            8 2 2 2 2 8
-            8 8 2 2 8 8
+            . . 2 2 . .
+            . 2 2 2 2 .
+            2 2 . . 2 2
+            2 2 . . 2 2
+            . 2 2 2 2 .
+            . . 2 2 . .
+        `;
+    }
+
+    export class Ship {
+        static BATTLE_SHIP: Image = img`
+            . . . . . . . . . . . . . . .
+            . f f f f f f f f f f f . . .
+            . f c c f c c c f 9 c c f . .
+            . f c f f f f f f c 9 c c f .
+            . f c f f f f f f c 9 c c f .
+            . f c c f c c c f 9 c c f . .
+            . f f f f f f f f f f f . . .
+            . . . . . . . . . . . . . . .
         `;
     }
 }

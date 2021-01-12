@@ -10,8 +10,11 @@ enemyAttacksText.setMaxFontHeight(5)
 enemyAttacksText.setPosition(119, 86)
 let textVisible: boolean = true
 
+let battleSip = sprites.create(BattleshipImages.Ship.BATTLE_SHIP)
+battleSip.setPosition(21, 25)
+
 function drawImage(img: Image, x: number, y: number) {
-    scene.backgroundImage().drawImage(img, x, y)
+    scene.backgroundImage().drawTransparentImage(img, x, y)
 }
 
 game.onUpdateInterval(1000, function() {
