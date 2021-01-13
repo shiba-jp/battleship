@@ -265,6 +265,17 @@ namespace BattleshipImages {
             . 2 2 2 2 .
             . . 2 2 . .
         `;
+
+        static CURSOR: Image = img`
+            2 2 2 2 2 2 2 2
+            2 . . . . . . 2
+            2 . . . . . . 2
+            2 . . . . . . 2
+            2 . . . . . . 2
+            2 . . . . . . 2
+            2 . . . . . . 2
+            2 2 2 2 2 2 2 2
+        `;
     }
 
     export class Ship {

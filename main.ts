@@ -2,6 +2,25 @@
 game.waitAnyButton()
  scene.setBackgroundImage(BattleshipImages.Background.MAIN_SCREEN)
 
+let playerCursor = sprites.create(BattleshipImages.MapItem.CURSOR)
+playerCursor.setPosition(87, 11)
+controller.up.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(playerCursor.y == 11) return
+    playerCursor.y = playerCursor.y - 7
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(playerCursor.y == 74) return
+    playerCursor.y = playerCursor.y + 7
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(playerCursor.x == 150) return
+    playerCursor.x = playerCursor.x + 7
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(playerCursor.x == 87) return
+    playerCursor.x = playerCursor.x - 7
+})
+
  let playerAttacksText = textsprite.create("PLAYER")
 playerAttacksText.setMaxFontHeight(5)
 playerAttacksText.setPosition(41, 86)
