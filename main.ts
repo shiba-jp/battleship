@@ -22,26 +22,56 @@ battleSip.setPosition(28, 67)
 aircraftCarrier.setPosition(31, 25)
 
 let p_patrolBoat: Sprite = sprites.create(BattleshipImages.Ship.PATROL_BOAT)
-let p_submarine: Sprite = sprites.create(BattleshipImages.Ship.SUBMARINE)
 let p_cruiser: Sprite = sprites.create(BattleshipImages.Ship.CRUISER)
+let p_submarine: Sprite = sprites.create(BattleshipImages.Ship.SUBMARINE)
 let p_battleSip: Sprite = sprites.create(BattleshipImages.Ship.BATTLESHIP)
 let p_aircraftCarrier: Sprite = sprites.create(BattleshipImages.Ship.AIRCRAFT_CARRIER)
-p_patrolBoat.setPosition(15, 97)
-p_submarine.setPosition(38, 97)
-p_cruiser.setPosition(65, 97)
-p_battleSip.setPosition(22, 111)
+p_patrolBoat.setPosition(13, 97)
+p_cruiser.setPosition(37, 97)
+p_submarine.setPosition(65, 97)
+p_battleSip.setPosition(20, 111)
 p_aircraftCarrier.setPosition(58, 111)
+let statusbar = statusbars.create(3, 4, 0)
+statusbar.attachToSprite(p_patrolBoat)
+let statusbar2 = statusbars.create(3, 6, 0)
+statusbar2.attachToSprite(p_cruiser)
+statusbar2.value = 70
+let statusbar3 = statusbars.create(3, 6, 0)
+statusbar3.attachToSprite(p_submarine)
+statusbar3.value = 30
+let statusbar4 = statusbars.create(3, 8, 0)
+statusbar4.attachToSprite(p_battleSip)
+statusbar4.value = 25
+let statusbar5 = statusbars.create(3, 10, 0)
+statusbar5.attachToSprite(p_aircraftCarrier)
+statusbar5.value = 50
+
 
 let e_patrolBoat: Sprite = sprites.create(BattleshipImages.Ship.PATROL_BOAT)
-let e_submarine: Sprite = sprites.create(BattleshipImages.Ship.SUBMARINE)
 let e_cruiser: Sprite = sprites.create(BattleshipImages.Ship.CRUISER)
+let e_submarine: Sprite = sprites.create(BattleshipImages.Ship.SUBMARINE)
 let e_battleSip: Sprite = sprites.create(BattleshipImages.Ship.BATTLESHIP)
 let e_aircraftCarrier: Sprite = sprites.create(BattleshipImages.Ship.AIRCRAFT_CARRIER)
-e_patrolBoat.setPosition(97, 97)
-e_submarine.setPosition(121, 97)
-e_cruiser.setPosition(148, 97)
-e_battleSip.setPosition(104, 111)
-e_aircraftCarrier.setPosition(140, 111)
+e_patrolBoat.setPosition(96, 97)
+e_cruiser.setPosition(120, 97)
+e_submarine.setPosition(148, 97)
+e_battleSip.setPosition(103, 111)
+e_aircraftCarrier.setPosition(141, 111)
+let statusbarE = statusbars.create(3, 4, 0)
+statusbarE.attachToSprite(e_patrolBoat)
+statusbarE.value = 50
+let statusbarE2 = statusbars.create(3, 6, 0)
+statusbarE2.attachToSprite(e_cruiser)
+statusbarE2.value = 30
+let statusbarE3 = statusbars.create(3, 6, 0)
+statusbarE3.attachToSprite(e_submarine)
+statusbarE3.value = 100
+let statusbarE4 = statusbars.create(3, 8, 0)
+statusbarE4.attachToSprite(e_battleSip)
+statusbarE4.value = 25
+let statusbarE5 = statusbars.create(3, 10, 0)
+statusbarE5.attachToSprite(e_aircraftCarrier)
+statusbarE5.value = 75
 
 function drawImage(img: Image, x: number, y: number) {
     scene.backgroundImage().drawTransparentImage(img, x, y)
