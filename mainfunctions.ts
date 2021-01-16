@@ -51,7 +51,7 @@ function redeployPlayerShips(shipMap: number[][]) {
         deployPlayerShips(shipMap)
         pause(300)
 
-        replace = !game.ask("A:OK  B:REDEPLOY")
+        replace = !game.ask("A:GAME START  B:REDEPLOY")
         if(replace) {
             backGround = new BattleshipImages.Background()
             scene.setBackgroundImage(backGround.MAIN_SCREEN)

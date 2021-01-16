@@ -5,6 +5,7 @@ enum GameScene {
     EnemyTurn,
 }
 
+music.setVolume(148)
 let currentScene: GameScene = GameScene.Title
 let backGround: BattleshipImages.Background = new BattleshipImages.Background()
 
@@ -51,7 +52,7 @@ let playerAttacksText = textsprite.create("PLAYER")
 
 game.onUpdateInterval(1000, function() {
     playerAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
-    enemyAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
+    //enemyAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
 
     textVisible = textVisible ? false : true
 })
@@ -74,6 +75,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
             sccess.startEffect(effects.fire, 1000)
             sccess.destroy()
             utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, playerCursor.x - 3, playerCursor.y - 3)
+
+            //enemyAttacksText.say(shipType + " Hit!", 500)
         }
 
         if(enemyStatus.wiped()){
