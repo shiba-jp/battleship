@@ -81,5 +81,26 @@ function replaceShips(shipMap: number[][]) {
         }
     }
 
-    
+    let aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, shipMap)
+    let battleship = new ShipContext(ShipType.Battleship, shipMap)
+    let cruiser = new ShipContext(ShipType.Cruiser, shipMap)
+    let submarine = new ShipContext(ShipType.Submarine, shipMap)
+    let patrolBoat = new ShipContext(ShipType.PatrolBoat, shipMap)
+
+    console.log("----------------------------------------")
+    for(let i = 0; i < 10; i++){
+        let logLine: string = ""
+        
+        for(let j = 0; j < 10; j++) {
+            let val = ""
+            if(shipMap[j][i] != null){
+                val = shipMap[j][i].toString()
+            }else{
+                val = "null"
+            }
+            logLine = logLine + val + ","
+        }
+        console.logValue("Row" + i, logLine)
+    }
+    console.log("----------------------------------------")
 }

@@ -2,7 +2,7 @@
  * Title
  */
 scene.setBackgroundImage((new BattleshipImages.Background()).TITLE_SCREEN)
-game.waitAnyButton()
+//game.waitAnyButton()
 scene.setBackgroundImage((new BattleshipImages.Background()).MAIN_SCREEN)
 
 /**
