@@ -65,10 +65,10 @@ class ShipContext {
                 shipImage = BattleshipImages.Ship.SHIP_IMAGES_V[this.shipType]
             }
 
-            //if(ShipOwner.Player == this._owner) {
+            if(ShipOwner.Player == this._owner) {
                 if(randint(0, 1) == 1) shipImage = shipImage.rotated(180)
                 scene.backgroundImage().drawTransparentImage(shipImage, imgStartX + (posX * 7), 7 + (posY * 7))
-            //}
+            }
         } else {
             this.deploy(shipMap)
         }
