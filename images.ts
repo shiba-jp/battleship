@@ -492,5 +492,63 @@ namespace BattleshipImages {
             Ship.BATTLESHIP_H,
             Ship.AIRCRAFT_CARRIER_H,
         ]
+
+        constructor() {
+        }
+
+        PATROL_BOAT_H: Image = img`
+            . . . . . . . . . . . . . . .
+            . f f f f f f f f f f f . . .
+            . f b b b b c c c 9 b b f . .
+            . f b b c c c c c c 9 b b f .
+            . f b b c c c c c c 9 b b f .
+            . f b b b b c c c 9 b b f . .
+            . f f f f f f f f f f f . . .
+            . . . . . . . . . . . . . . .
+        `;
+
+        CRUISER_H: Image = img`
+            . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . f f f f f f f f f f f f . . . . .
+            . . . f f b b b b b b f b b b f b f f . . .
+            . f f b b b f f b b b f b f b f b b b f f .
+            . f f b b b b b f b b f b f b f b b b f f .
+            . . . f f b b b b b b f b b b f b f f . . .
+            . . . . . f f f f f f f f f f f f . . . . .
+            . . . . . . . . . . . . . . . . . . . . . .
+        `;
+
+        SUBMARINE_H: Image = img`
+            . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . . f f f f f f f f f f f f f . . .
+            . f f . f f b b b b b b b b b b b b b f . .
+            . f b f f b b b b b b b f f f f b b b b f .
+            . f b f f b b b b b b b f f f f b b b b f .
+            . f f . f f b b b b b b b b b b b b b f . .
+            . . . . . . f f f f f f f f f f f f f . . .
+            . . . . . . . . . . . . . . . . . . . . . .
+        `;
+
+        BATTLESHIP_H: Image = img`
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . . f f f f f f f f f f f f f f f f f . . . . . .
+            . . . f f f b b b f b b f f f f f b b f b b b f f f . . .
+            . f f b b b b f f f b f c c c c c f b f f f b b b b f f .
+            . f f b b b b f f f b f c c c c c f b f f f b b b b f f .
+            . . . f f f b b b f b b f f f f f b b f b b b f f f . . .
+            . . . . . . f f f f f f f f f f f f f f f f f . . . . . .
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        `;
+
+        AIRCRAFT_CARRIER_H: Image = img`
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+            . f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f .
+            . f b b b b b b f c c f b b b b b b b b b b b b b b b b b b b b b b f .
+            . f b f f b b f f c c f b b f f b f f b f f b f f b f f b f f b f b f .
+            . f b b b b b f f c c f b b b b b b b b b b b b b b b b b b b b b b f .
+            . . f f f f b b f c c f b b b b b b b b b b b b b b b b b b b b b b f .
+            . . . . . . f f f f f f f f f f f f f f f f f f f f f f f f f f f f . .
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        `;
     }
 }

@@ -111,11 +111,11 @@ function prepareInformation() {
     statusbar5.value = 50
 
 
-    let e_patrolBoat: Sprite = sprites.create(BattleshipImages.Ship.PATROL_BOAT_H)
-    let e_cruiser: Sprite = sprites.create(BattleshipImages.Ship.CRUISER_H)
-    let e_submarine: Sprite = sprites.create(BattleshipImages.Ship.SUBMARINE_H)
-    let e_battleSip: Sprite = sprites.create(BattleshipImages.Ship.BATTLESHIP_H)
-    let e_aircraftCarrier: Sprite = sprites.create(BattleshipImages.Ship.AIRCRAFT_CARRIER_H)
+    let e_patrolBoat: Sprite = sprites.create((new BattleshipImages.Ship()).PATROL_BOAT_H)
+    let e_cruiser: Sprite = sprites.create((new BattleshipImages.Ship()).CRUISER_H)
+    let e_submarine: Sprite = sprites.create((new BattleshipImages.Ship()).SUBMARINE_H)
+    let e_battleSip: Sprite = sprites.create((new BattleshipImages.Ship()).BATTLESHIP_H)
+    let e_aircraftCarrier: Sprite = sprites.create((new BattleshipImages.Ship()).AIRCRAFT_CARRIER_H)
     e_patrolBoat.setPosition(96, 97)
     e_cruiser.setPosition(120, 97)
     e_submarine.setPosition(148, 97)
@@ -124,7 +124,6 @@ function prepareInformation() {
     let statusbarE: StatusBarSprite = statusbars.create(3, 4, 0)
     statusbarE.attachToSprite(e_patrolBoat)
     statusbarE.max = 2
-    //e_patrolBoat.image.replace(0xb, 2)
     let statusbarE2: StatusBarSprite = statusbars.create(3, 6, 0)
     statusbarE2.attachToSprite(e_cruiser)
     statusbarE2.max = 3

@@ -88,22 +88,37 @@ class FleetStatus {
             case ShipType.PatrolBoat:
                 this._patrolBoatLife -= 1
                 this._patrolBoatStatusBar.value -= 1
+                if(this._patrolBoatLife == 0) {
+                    this._patrolBoatStatusBar.spriteAttachedTo().image.replace(0xb, 2)
+                }
                 break
             case ShipType.Submarine:
                 this._submarineLife -= 1
                 this._submarineStatusBar.value -= 1
+                if(this._submarineLife == 0) {
+                    this._submarineStatusBar.spriteAttachedTo().image.replace(0xb, 2)
+                }
                 break
             case ShipType.Cruiser:
                 this._cruiserLife -= 1
                 this._cruiserStatusBar.value -= 1
+                if(this._cruiserLife == 0) {
+                    this._cruiserStatusBar.spriteAttachedTo().image.replace(0xb, 2)
+                }
                 break
             case ShipType.Battleship:
                 this._battleshipLife -= 1
                 this._battleshipStatusBar.value -= 1
+                if(this._battleshipLife == 0) {
+                    this._battleshipStatusBar.spriteAttachedTo().image.replace(0xb, 2)
+                }
                 break
             case ShipType.AircraftCarrier:
                 this._aircraftcarrierLife -= 1
                 this._aircraftcarrierStatusBar.value -= 1
+                if(this._aircraftcarrierLife == 0) {
+                    this._aircraftcarrierStatusBar.spriteAttachedTo().image.replace(0xb, 2)
+                }
                 break
         }
     }
