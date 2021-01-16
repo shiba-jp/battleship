@@ -14,7 +14,7 @@ prepareInformation()
  * Arrange Player Ships
 */
 let playerShipMap: number[][] = [[],[]]
-//replaceShips(playerShipMap)
+replaceShips(playerShipMap)
 
 prepareCursor()
 
