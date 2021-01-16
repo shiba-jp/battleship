@@ -11,7 +11,8 @@
         "README.md",
         "images.ts",
         "mainfunctions.ts",
-        "ShipContext.ts"
+        "ShipContext.ts",
+        "utility.ts"
     ],
     "testFiles": [
         "test.ts"

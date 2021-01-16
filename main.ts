@@ -1,9 +1,44 @@
+controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(GameScene.PlayerTurn == currentScene) {
+        let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
+        failed.setPosition(playerCursor.x, playerCursor.y)
+        failed.startEffect(effects.bubbles, 1000)
+        failed.destroy()
+        utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
+    }
+    
+
+    //submarine.setImage(BattleshipImages.Ship.SUBMARINE.rotated(180))
+})
+
+controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
+    /**
+    let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
+    sccess.setPosition(136, 60)
+    sccess.startEffect(effects.fire, 1000)
+    sccess.destroy()
+    drawImage(BattleshipImages.MapItem.ATTACK_HIT, 133, 57)
+
+    //submarine.setImage(BattleshipImages.Ship.SUBMARINE)
+    */
+})
+
+enum GameScene {
+    Title,
+    DeployingShips,
+    PlayerTurn,
+    EnemyTurn,
+}
+
+let currentScene: GameScene = GameScene.Title
+let backGround: BattleshipImages.Background = new BattleshipImages.Background()
+
 /**
  * Title
  */
-scene.setBackgroundImage((new BattleshipImages.Background()).TITLE_SCREEN)
+scene.setBackgroundImage(backGround.TITLE_SCREEN)
 game.waitAnyButton()
-scene.setBackgroundImage((new BattleshipImages.Background()).MAIN_SCREEN)
+scene.setBackgroundImage(backGround.MAIN_SCREEN)
 
 /**
  * Prepare Ship Info
@@ -13,10 +48,15 @@ prepareInformation()
 /** 
  * Arrange Player Ships
 */
+currentScene = GameScene.DeployingShips
 let playerShipMap: number[][] = [[],[]]
-redeployShips(playerShipMap)
+let enemyShipMap: number[][] = [[],[]]
+redeployPlayerShips(playerShipMap)
+deployEnemyShips(enemyShipMap)
 
+let playerCursor: Sprite = null
 prepareCursor()
+currentScene = GameScene.PlayerTurn
 
 let playerAttacksText = textsprite.create("PLAYER")
     playerAttacksText.setMaxFontHeight(5)
@@ -34,31 +74,8 @@ game.onUpdateInterval(1000, function() {
 })
 
 
-function drawImage(img: Image, x: number, y: number) {
-    scene.backgroundImage().drawTransparentImage(img, x, y)
-}
 
 
-controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
-    /**
-    let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-    failed.setPosition(24, 18)
-    failed.startEffect(effects.bubbles, 1000)
-    failed.destroy()
-    drawImage(BattleshipImages.MapItem.ATTACK_MISS, 21, 15)
 
-    //submarine.setImage(BattleshipImages.Ship.SUBMARINE.rotated(180))
-     */
-})
 
-controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
-    /**
-    let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-    sccess.setPosition(136, 60)
-    sccess.startEffect(effects.fire, 1000)
-    sccess.destroy()
-    drawImage(BattleshipImages.MapItem.ATTACK_HIT, 133, 57)
 
-    //submarine.setImage(BattleshipImages.Ship.SUBMARINE)
-    */
-})

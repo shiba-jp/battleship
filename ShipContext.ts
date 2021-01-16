@@ -11,11 +11,18 @@ enum ShipType {
     AircraftCarrier = 4,
 }
 
+enum ShipOwner {
+    Player,
+    Enemy
+}
+
 class ShipContext {
 
     private _shipType: ShipType
 
     private _derection: ShipDirection
+
+    private _owner: ShipOwner
 
     get shipType(): ShipType {
         return this._shipType
@@ -25,9 +32,14 @@ class ShipContext {
         return this._derection
     }
 
-    constructor(shipType: ShipType, shipMap: number[][]) {
+    get owner(): ShipOwner {
+        return this._owner
+    }
+
+    constructor(shipType: ShipType, owner: ShipOwner, shipMap: number[][]) {
         this._shipType = shipType
         this._derection = randint(0, 1) == 0 ? ShipDirection.Horizontal : ShipDirection.Vertical
+        this._owner = owner
         this.deploy(shipMap)
     }
 
@@ -38,6 +50,7 @@ class ShipContext {
 
         let posX: number = randint(0, this._derection == ShipDirection.Horizontal ? max : 9)
         let posY: number = randint(0, this._derection == ShipDirection.Vertical ? max : 9)
+        let imgStartX: number = this._owner == ShipOwner.Player ? 6 : 83
 
         if(this.canDeploy(posX, posY, shipLength, shipMap)) {
             if(this._derection == ShipDirection.Horizontal) {
@@ -53,7 +66,7 @@ class ShipContext {
             }
 
             if(randint(0, 1) == 1) shipImage = shipImage.rotated(180)
-            scene.backgroundImage().drawTransparentImage(shipImage, 6 + (posX * 7), 7 + (posY * 7))
+            scene.backgroundImage().drawTransparentImage(shipImage, imgStartX + (posX * 7), 7 + (posY * 7))
 
         } else {
             this.deploy(shipMap)

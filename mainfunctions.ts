@@ -53,7 +53,7 @@ function prepareInformation() {
 }
 
 function prepareCursor() {
-    let playerCursor = sprites.create(BattleshipImages.MapItem.CURSOR)
+    playerCursor = sprites.create(BattleshipImages.MapItem.CURSOR)
     playerCursor.setPosition(87, 11)
     controller.up.onEvent(ControllerButtonEvent.Pressed, function() {
         if(playerCursor.y == 11) return
@@ -72,48 +72,43 @@ function prepareCursor() {
         playerCursor.x = playerCursor.x - 7
     })
 }
-function redeployShips(shipMap: number[][]) {
+
+
+function redeployPlayerShips(shipMap: number[][]) {
     let replace: boolean = false
 
     do {
-        deployShips(shipMap)
+        deployPlayerShips(shipMap)
         pause(300)
 
         replace = !game.ask("A:OK  B:REDEPLOY")
         if(replace) {
-            scene.setBackgroundImage((new BattleshipImages.Background()).MAIN_SCREEN)
+            backGround = new BattleshipImages.Background()
+            scene.setBackgroundImage(backGround.MAIN_SCREEN)
         }
     }while(replace)
 }
 
-function deployShips(shipMap: number[][]) {
-    for(let i = 0; i < 10; i++) {
-        shipMap[i] = []
-        for(let j = 0; j < 10;j ++) {
-            shipMap[i][j] = null
-        }
-    }
+function deployPlayerShips(shipMap: number[][]) {
+    utility.initilaizeMap(shipMap)
 
-    let aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, shipMap)
-    let battleship = new ShipContext(ShipType.Battleship, shipMap)
-    let cruiser = new ShipContext(ShipType.Cruiser, shipMap)
-    let submarine = new ShipContext(ShipType.Submarine, shipMap)
-    let patrolBoat = new ShipContext(ShipType.PatrolBoat, shipMap)
+    let p_aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, ShipOwner.Player, shipMap)
+    let p_battleship = new ShipContext(ShipType.Battleship, ShipOwner.Player, shipMap)
+    let p_cruiser = new ShipContext(ShipType.Cruiser, ShipOwner.Player, shipMap)
+    let p_submarine = new ShipContext(ShipType.Submarine, ShipOwner.Player, shipMap)
+    let p_patrolBoat = new ShipContext(ShipType.PatrolBoat, ShipOwner.Player, shipMap)
 
-    console.log("----------------------------------------")
-    for(let i = 0; i < 10; i++){
-        let logLine: string = ""
-        
-        for(let j = 0; j < 10; j++) {
-            let val = ""
-            if(shipMap[j][i] != null){
-                val = shipMap[j][i].toString()
-            }else{
-                val = "null"
-            }
-            logLine = logLine + val + ","
-        }
-        console.logValue("Row" + i, logLine)
-    }
-    console.log("----------------------------------------")
+    utility.consoleMapLog(shipMap, "PLAYER")
+}
+
+function deployEnemyShips(shipMap: number[][]) {
+    utility.initilaizeMap(shipMap)
+
+    let e_aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, ShipOwner.Enemy, shipMap)
+    let e_battleship = new ShipContext(ShipType.Battleship, ShipOwner.Enemy, shipMap)
+    let e_cruiser = new ShipContext(ShipType.Cruiser, ShipOwner.Enemy, shipMap)
+    let e_submarine = new ShipContext(ShipType.Submarine, ShipOwner.Enemy, shipMap)
+    let e_patrolBoat = new ShipContext(ShipType.PatrolBoat, ShipOwner.Enemy, shipMap)
+
+    utility.consoleMapLog(shipMap, "ENEMY")
 }
