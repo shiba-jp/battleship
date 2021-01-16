@@ -12,7 +12,8 @@
         "images.ts",
         "mainfunctions.ts",
         "ShipContext.ts",
-        "utility.ts"
+        "utility.ts",
+        "FleetStatus.ts"
     ],
     "testFiles": [
         "test.ts"

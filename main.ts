@@ -21,7 +21,7 @@ scene.setBackgroundImage(backGround.MAIN_SCREEN)
 prepareInformation()
 
 /** 
- * Arrange Player Ships
+ * Arrange Player & Enemy Ships
 */
 currentScene = GameScene.DeployingShips
 let playerShipMap: number[][] = [[],[]]
@@ -29,6 +29,13 @@ let enemyShipMap: number[][] = [[],[]]
 redeployPlayerShips(playerShipMap)
 deployEnemyShips(enemyShipMap)
 
+let playerStatus: FleetStatus = new FleetStatus()
+let enemyStatus: FleetStatus = new FleetStatus()
+
+
+/**
+ * Prepare Player Cursor
+ */
 let playerCursor: Sprite = null
 let playerCurosrPosX: number = 0
 let playerCurosrPosY: number = 0
@@ -61,12 +68,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
             utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
         }else{
             let shipType: ShipType = ship
+            enemyStatus.hit(shipType)
 
             let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
             sccess.setPosition(playerCursor.x, playerCursor.y)
             sccess.startEffect(effects.fire, 1000)
             sccess.destroy()
             utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, playerCursor.x - 3, playerCursor.y - 3)
+        }
+
+        if(enemyStatus.wiped()){
+            game.over(true)
         }
     }
 })
