@@ -28,10 +28,10 @@ class ShipContext {
     constructor(shipType: ShipType, shipMap: number[][]) {
         this._shipType = shipType
         this._derection = randint(0, 1) == 0 ? ShipDirection.Horizontal : ShipDirection.Vertical
-        this.place(shipMap)
+        this.deploy(shipMap)
     }
 
-    private place(shipMap: number[][]) {
+    private deploy(shipMap: number[][]) {
         let shipLength: number = this.getShipLength()
         let max: number = 9 - shipLength;
         let shipImage: Image = null
@@ -39,7 +39,7 @@ class ShipContext {
         let posX: number = randint(0, this._derection == ShipDirection.Horizontal ? max : 9)
         let posY: number = randint(0, this._derection == ShipDirection.Vertical ? max : 9)
 
-        if(this.canPlace(posX, posY, shipLength, shipMap)) {
+        if(this.canDeploy(posX, posY, shipLength, shipMap)) {
             if(this._derection == ShipDirection.Horizontal) {
                 for(let i = posX; i < posX + shipLength; i++) {
                     shipMap[i][posY] = this._shipType
@@ -56,26 +56,79 @@ class ShipContext {
             scene.backgroundImage().drawTransparentImage(shipImage, 6 + (posX * 7), 7 + (posY * 7))
 
         } else {
-            this.place(shipMap)
+            this.deploy(shipMap)
         }
     }
 
-    private canPlace(posX: number, posY: number, shipLength: number, shipMap: number[][]): boolean {
+    private canDeploy(posX: number, posY: number, shipLength: number, shipMap: number[][]): boolean {
         let canPlace = true
 
         if(this._derection == ShipDirection.Horizontal) {
             for(let i = posX; i < posX + shipLength; i++) {
+                //船の領域内に既に他の船がある場合はダメ
                 if(shipMap[i][posY] != null) {
                     canPlace = false
                     break
                 }
+
+                //行が隣り合っている場合はダメ
+                if(posY == 0 && shipMap[i][posY + 1] != null) {
+                    canPlace = false
+                    break
+                }
+                if(posY == 9 && shipMap[i][posY - 1] != null) {
+                    canPlace = false
+                    break
+                }
+               if(posY > 0 && posY < 9 && (shipMap[i][posY - 1] != null || shipMap[i][posY + 1] != null)) {
+                    canPlace = false
+                    break
+                }
+            }
+            // 列が隣り合っている場合はダメ
+            if(posX == 0 && shipMap[posX + shipLength][posY] != null) {
+                canPlace = false
+            }
+            if(posX + shipLength - 1 == 9 && shipMap[posX - 1][posY] != null) {
+                canPlace = false
+            }
+            if(posX > 0 && posX + shipLength - 1 < 9 && (shipMap[posX - 1][posY] != null 
+            || shipMap[posX + shipLength][posY] != null)) {
+                canPlace = false
             }
         }else if(this._derection == ShipDirection.Vertical) {
             for(let j = posY; j < posY + shipLength; j++) {
+                //船の領域内に既に他の船がある場合はダメ
                 if(shipMap[posX][j] != null) {
                     canPlace = false
                     break
                 }
+
+                //行が隣り合っている場合はダメ
+                if(posX == 0 && shipMap[posX + 1][j] != null) {
+                    canPlace = false
+                    break
+                }
+                if(posX == 9 && shipMap[posX - 1][j] != null) {
+                    canPlace = false
+                    break
+                }
+                if(posX > 0 && posX < 9 && (shipMap[posX - 1][j] != null || shipMap[posX + 1][j] != null)) {
+                    canPlace = false
+                    break
+                }  
+            }
+
+            // 列が隣り合っている場合はダメ
+            if(posY == 0 && shipMap[posX][posY + shipLength] != null) {
+                canPlace = false
+            }
+            if(posY + shipLength - 1 == 9 && shipMap[posX][posY - 1] != null) {
+                canPlace = false
+            }
+            if(posY > 0 && posY + shipLength - 1 < 9 && (shipMap[posX][posY - 1] != null 
+            || shipMap[posX][posY + shipLength] != null)) {
+                canPlace = false
             }
         }
 

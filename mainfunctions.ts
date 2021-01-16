@@ -72,12 +72,12 @@ function prepareCursor() {
         playerCursor.x = playerCursor.x - 7
     })
 }
-function replaceShips(shipMap: number[][]) {
+function redeployShips(shipMap: number[][]) {
     let replace: boolean = false
 
     do {
-        placeShips(shipMap)
-        pause(800)
+        deployShips(shipMap)
+        pause(300)
 
         replace = !game.ask("A:OK  B:REPLACE")
         if(replace) {
@@ -86,7 +86,7 @@ function replaceShips(shipMap: number[][]) {
     }while(replace)
 }
 
-function placeShips(shipMap: number[][]) {
+function deployShips(shipMap: number[][]) {
     for(let i = 0; i < 10; i++) {
         shipMap[i] = []
         for(let j = 0; j < 10;j ++) {
