@@ -72,8 +72,21 @@ function prepareCursor() {
         playerCursor.x = playerCursor.x - 7
     })
 }
-
 function replaceShips(shipMap: number[][]) {
+    let replace: boolean = false
+
+    do {
+        placeShips(shipMap)
+        pause(800)
+
+        replace = !game.ask("A:OK  B:REPLACE")
+        if(replace) {
+            scene.setBackgroundImage((new BattleshipImages.Background()).MAIN_SCREEN)
+        }
+    }while(replace)
+}
+
+function placeShips(shipMap: number[][]) {
     for(let i = 0; i < 10; i++) {
         shipMap[i] = []
         for(let j = 0; j < 10;j ++) {
