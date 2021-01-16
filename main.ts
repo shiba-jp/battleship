@@ -18,6 +18,8 @@ scene.setBackgroundImage(backGround.MAIN_SCREEN)
 /**
  * Prepare Ship Info
  */
+let playerStatus: FleetStatus = new FleetStatus()
+let enemyStatus: FleetStatus = new FleetStatus()
 prepareInformation()
 
 /** 
@@ -28,9 +30,6 @@ let playerShipMap: number[][] = [[],[]]
 let enemyShipMap: number[][] = [[],[]]
 redeployPlayerShips(playerShipMap)
 deployEnemyShips(enemyShipMap)
-
-let playerStatus: FleetStatus = new FleetStatus()
-let enemyStatus: FleetStatus = new FleetStatus()
 
 
 /**
@@ -78,6 +77,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
         }
 
         if(enemyStatus.wiped()){
+            pause(500)
             game.over(true)
         }
     }

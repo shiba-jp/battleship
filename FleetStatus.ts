@@ -10,6 +10,16 @@ class FleetStatus {
 
     private _aircraftcarrierLife: number = 5
 
+    private _patrolBoatStatusBar: StatusBarSprite = null
+
+    private _submarineStatusBar: StatusBarSprite = null
+
+    private _cruiserStatusBar: StatusBarSprite = null
+
+    private _battleshipStatusBar: StatusBarSprite = null
+
+    private _aircraftcarrierStatusBar: StatusBarSprite = null
+
     get patrolBoatLife(): number {
         return this._patrolBoatLife
     }
@@ -30,6 +40,46 @@ class FleetStatus {
         return this._aircraftcarrierLife
     }
 
+    get patrolBoatStatusBar(): StatusBarSprite {
+        return this._patrolBoatStatusBar
+    }
+
+    get submarineStatusBar(): StatusBarSprite {
+        return this._submarineStatusBar
+    }
+
+    get cruiserStatusBar(): StatusBarSprite {
+        return this._cruiserStatusBar
+    }
+
+    get battleshipStatusBar(): StatusBarSprite {
+        return this._battleshipStatusBar
+    }
+
+    get aircraftcarrierStatusBar(): StatusBarSprite {
+        return this._aircraftcarrierStatusBar
+    }
+
+    set patrolBoatStatusBar(statusbar: StatusBarSprite) {
+        this._patrolBoatStatusBar = statusbar
+    }
+
+    set submarineStatusBar(statusbar: StatusBarSprite) {
+        this._submarineStatusBar = statusbar
+    }
+
+    set cruiserStatusBar(statusbar: StatusBarSprite) {
+        this._cruiserStatusBar = statusbar
+    }
+
+    set battleshipStatusBar(statusbar: StatusBarSprite) {
+        this._battleshipStatusBar = statusbar
+    }
+
+    set aircraftcarrierStatusBar(statusbar: StatusBarSprite) {
+        this._aircraftcarrierStatusBar = statusbar
+    }
+
     constructor() {
     }
 
@@ -37,18 +87,23 @@ class FleetStatus {
         switch(shiptype) {
             case ShipType.PatrolBoat:
                 this._patrolBoatLife -= 1
+                this._patrolBoatStatusBar.value -= 1
                 break
             case ShipType.Submarine:
                 this._submarineLife -= 1
+                this._submarineStatusBar.value -= 1
                 break
             case ShipType.Cruiser:
                 this._cruiserLife -= 1
+                this._cruiserStatusBar.value -= 1
                 break
             case ShipType.Battleship:
                 this._battleshipLife -= 1
+                this._battleshipStatusBar.value -= 1
                 break
             case ShipType.AircraftCarrier:
                 this._aircraftcarrierLife -= 1
+                this._aircraftcarrierStatusBar.value -= 1
                 break
         }
     }
