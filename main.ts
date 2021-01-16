@@ -1,28 +1,3 @@
-controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
-    if(GameScene.PlayerTurn == currentScene) {
-        let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-        failed.setPosition(playerCursor.x, playerCursor.y)
-        failed.startEffect(effects.bubbles, 1000)
-        failed.destroy()
-        utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
-    }
-    
-
-    //submarine.setImage(BattleshipImages.Ship.SUBMARINE.rotated(180))
-})
-
-controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
-    /**
-    let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-    sccess.setPosition(136, 60)
-    sccess.startEffect(effects.fire, 1000)
-    sccess.destroy()
-    drawImage(BattleshipImages.MapItem.ATTACK_HIT, 133, 57)
-
-    //submarine.setImage(BattleshipImages.Ship.SUBMARINE)
-    */
-})
-
 enum GameScene {
     Title,
     DeployingShips,
@@ -55,6 +30,8 @@ redeployPlayerShips(playerShipMap)
 deployEnemyShips(enemyShipMap)
 
 let playerCursor: Sprite = null
+let playerCurosrPosX: number = 0
+let playerCurosrPosY: number = 0
 prepareCursor()
 currentScene = GameScene.PlayerTurn
 
@@ -71,6 +48,31 @@ game.onUpdateInterval(1000, function() {
     enemyAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
 
     textVisible = textVisible ? false : true
+})
+
+controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(GameScene.PlayerTurn == currentScene) {
+        let ship = enemyShipMap[playerCurosrPosX][playerCurosrPosY]
+        if(ship == null) {
+            let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
+            failed.setPosition(playerCursor.x, playerCursor.y)
+            failed.startEffect(effects.bubbles, 1000)
+            failed.destroy()
+            utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
+        }else{
+            let shipType: ShipType = ship
+
+            let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
+            sccess.setPosition(playerCursor.x, playerCursor.y)
+            sccess.startEffect(effects.fire, 1000)
+            sccess.destroy()
+            utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, playerCursor.x - 3, playerCursor.y - 3)
+        }
+    }
+})
+
+controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
+
 })
 
 
