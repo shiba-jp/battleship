@@ -14,7 +14,7 @@ prepareInformation()
  * Arrange Player Ships
 */
 let playerShipMap: number[][] = [[],[]]
-replaceShips(playerShipMap)
+//replaceShips(playerShipMap)
 
 prepareCursor()
 
@@ -34,14 +34,9 @@ game.onUpdateInterval(1000, function() {
 })
 
 
-
-
 function drawImage(img: Image, x: number, y: number) {
     scene.backgroundImage().drawTransparentImage(img, x, y)
 }
-
-
-
 
 
 controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
