@@ -5,8 +5,8 @@ enum ShipDirection{
 
 enum ShipType {
     PatrolBoat = 0,
-    Submarine = 1,
-    Cruiser = 2,
+    Cruiser = 1,
+    Submarine = 2,
     Battleship = 3,
     AircraftCarrier = 4,
 }
@@ -155,8 +155,8 @@ class ShipContext {
             case ShipType.PatrolBoat:
                 length = 2
                 break
-            case ShipType.Submarine:
             case ShipType.Cruiser:
+            case ShipType.Submarine:
                 length = 3
                 break
             case ShipType.Battleship:

@@ -64,8 +64,8 @@ function deployPlayerShips(shipMap: number[][]) {
 
     let p_aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, ShipOwner.Player, shipMap)
     let p_battleship = new ShipContext(ShipType.Battleship, ShipOwner.Player, shipMap)
-    let p_cruiser = new ShipContext(ShipType.Cruiser, ShipOwner.Player, shipMap)
     let p_submarine = new ShipContext(ShipType.Submarine, ShipOwner.Player, shipMap)
+    let p_cruiser = new ShipContext(ShipType.Cruiser, ShipOwner.Player, shipMap)
     let p_patrolBoat = new ShipContext(ShipType.PatrolBoat, ShipOwner.Player, shipMap)
 
     utility.consoleMapLog(shipMap, "PLAYER")
@@ -139,8 +139,8 @@ function prepareInformation() {
     statusbarE5.max = 5
 
     enemyStatus.patrolBoatStatusBar = statusbarE
-    enemyStatus.submarineStatusBar = statusbarE2
-    enemyStatus.cruiserStatusBar = statusbarE3
+    enemyStatus.cruiserStatusBar = statusbarE2
+    enemyStatus.submarineStatusBar = statusbarE3
     enemyStatus.battleshipStatusBar = statusbarE4
     enemyStatus.aircraftcarrierStatusBar = statusbarE5
 }

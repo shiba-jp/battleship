@@ -294,17 +294,6 @@ namespace BattleshipImages {
             . . . . . . . . . . . . . . .
         `;
 
-        static SUBMARINE_H: Image = img`
-            . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . . f f f f f f f f f f f f f . . .
-            . f f . f f b b b b b b b b b b b b b f . .
-            . f b f f b b b b b b b f f f f b b b b f .
-            . f b f f b b b b b b b f f f f b b b b f .
-            . f f . f f b b b b b b b b b b b b b f . .
-            . . . . . . f f f f f f f f f f f f f . . .
-            . . . . . . . . . . . . . . . . . . . . . .
-        `;
-
         static CRUISER_H: Image = img`
             . . . . . . . . . . . . . . . . . . . . . .
             . . . . . f f f f f f f f f f f f . . . . .
@@ -313,6 +302,17 @@ namespace BattleshipImages {
             . f f b b b b b f b b f b f b f b b b f f .
             . . . f f b b b b b b f b b b f b f f . . .
             . . . . . f f f f f f f f f f f f . . . . .
+            . . . . . . . . . . . . . . . . . . . . . .
+        `;
+
+        static SUBMARINE_H: Image = img`
+            . . . . . . . . . . . . . . . . . . . . . .
+            . . . . . . f f f f f f f f f f f f f . . .
+            . f f . f f b b b b b b b b b b b b b f . .
+            . f b f f b b b b b b b f f f f b b b b f .
+            . f b f f b b b b b b b f f f f b b b b f .
+            . f f . f f b b b b b b b b b b b b b f . .
+            . . . . . . f f f f f f f f f f f f f . . .
             . . . . . . . . . . . . . . . . . . . . . .
         `;
 
@@ -356,31 +356,6 @@ namespace BattleshipImages {
             . . . . . . . .
         `;
 
-        static SUBMARINE_V: Image = img`
-            . . . . . . . .
-            . . . f f . . .
-            . . f b b f . .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . . f b b f . .
-            . . f f f f . .
-            . . . f f . . .
-            . . f b b f . .
-            . . f f f f . .
-            . . . . . . . .
-        `;
-
         static CRUISER_V: Image = img`
             . . . . . . . .
             . . . f f . . .
@@ -403,6 +378,31 @@ namespace BattleshipImages {
             . . f b b f . .
             . . . f f . . .
             . . . f f . . .
+            . . . . . . . .
+        `;
+
+        static SUBMARINE_V: Image = img`
+            . . . . . . . .
+            . . . f f . . .
+            . . f b b f . .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . . f b b f . .
+            . . f f f f . .
+            . . . f f . . .
+            . . f b b f . .
+            . . f f f f . .
             . . . . . . . .
         `;
 
@@ -479,16 +479,16 @@ namespace BattleshipImages {
 
         static SHIP_IMAGES_V: Image[] = [
             Ship.PATROL_BOAT_V,
-            Ship.SUBMARINE_V,
             Ship.CRUISER_V,
+            Ship.SUBMARINE_V,
             Ship.BATTLESHIP_V,
             Ship.AIRCRAFT_CARRIER_V,
         ]
 
         static SHIP_IMAGES_H: Image[] = [
             Ship.PATROL_BOAT_H,
-            Ship.SUBMARINE_H,
             Ship.CRUISER_H,
+            Ship.SUBMARINE_H,
             Ship.BATTLESHIP_H,
             Ship.AIRCRAFT_CARRIER_H,
         ]
