@@ -1,11 +1,22 @@
 class EnemyAI {
     private _enemyStrategyMap: number[][] = [[],[]]
 
+    private _lastHitShipType: ShipType = null
+
+    private _lastHitPosX: number = null
+
+    private _lastHitPosY: number = null
+
+
     private _lastShipType: ShipType = null
 
     private _lastPosX: number = null
 
     private _lastPosY: number = null
+
+    private _nextPosX: number = null
+
+    private _nextPosY: number = null
 
     private _hitCountMap: {[shipType: number]: number} = {
       0 : 0, //ShipType.PatrolBoat
@@ -46,7 +57,9 @@ class EnemyAI {
 
         if(ShipType.Miss != shipType) {
             this._hitCountMap[shipType] += 1 
-
+            this._lastHitShipType = shipType
+            this._lastHitPosX = x
+            this._lastHitPosY = y
             console.logValue("HitShipCount", shipType + ":" + this._hitCountMap[shipType])
         }
 
@@ -72,9 +85,14 @@ class EnemyAI {
     }
 
     public getNextPos(): String {
+        /**
         //前回が空振りの場合はランダム
-        if(this._lastShipType == null || this._lastShipType == ShipType.Miss) {
-            return this._posList[randint(0, this._posList.length - 1)]
+        if(this._lastShipType == null
+        ||  this._lastHitShipType == null
+        || (this._lastShipType != ShipType.Miss && this.hasSunk(this._lastShipType))) {
+            //return this._posList[randint(0, this._posList.length - 1)]
+            this.getPossibleRandam()
+            return this.getPosString(this._nextPosX, this._nextPosY)
         }
         
         let targetShip: ShipType = this._lastShipType
@@ -87,10 +105,73 @@ class EnemyAI {
 
         let posString: String = this._posList[randint(0, this._posList.length - 1)]
         return posString
+         */
+        this.getPossibleRandam()
+        return this.getPosString(this._nextPosX, this._nextPosY)
     }
 
-    private getEvalValue(shipType: ShipType): number {
-        return 0
+    private searchTonari() {
+
+    }
+
+    private getPossibleRandam() {
+        let posStr = this._posList[randint(0, this._posList.length - 1)]
+        let x = this.getNextPosX(posStr)
+        let y = this.getNextPosY(posStr)
+
+        if(this.isPossiblePos(x, y)) {
+            this._nextPosX = x
+            this._nextPosY = y
+        }else {
+            this.getPossibleRandam()
+        }
+    }
+
+    private isPossiblePos(x: number, y: number): boolean {
+        let right = 0
+        let left = 0
+        let horizontal = 0
+        let up = 0
+        let down = 0
+        let vertical = 0
+        
+        if(x < 9) {
+            for(let i = x + 1; i < 10; i++) {
+                if(this._enemyStrategyMap[i][y] != ShipType.Miss) {
+                    right++
+                } else {break}
+            }
+        }
+        if(x > 0) {
+            for(let i = x - 1; i >= 0; i--) {
+                if(this._enemyStrategyMap[i][y] != ShipType.Miss) {
+                    left++
+                } else {break}
+            }
+        }
+        horizontal = left + 1 + right
+
+        if(y < 9) {
+            for(let i = y + 1; i < 10; i++) {
+                if(this._enemyStrategyMap[x][i] != ShipType.Miss) {
+                    down++
+                } else {break}
+            }
+        }
+        if(y > 0) {
+            for(let i = y - 1; i >= 0; i--) {
+                if(this._enemyStrategyMap[x][i] != ShipType.Miss) {
+                    up++
+                } else {break}
+            }
+        }
+        vertical = up + 1 + down
+
+        return horizontal >= 2 || vertical >= 2
+    }
+
+    private hasSunk(shipType: ShipType): boolean {
+        return this._hitCountMap[shipType] == this.getShipLength(shipType)
     }
 
     public getNextPosX(posString: String): number {
