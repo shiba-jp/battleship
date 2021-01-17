@@ -31,7 +31,7 @@ game.setDialogTextColor(0)
 game.setDialogFrame(BattleshipImages.Dialog.BOTTOM_DIALOG_FRAME)
 game.showLongText("DEPLOY THE SHIPS.\nA: GAME START\nB: REDEPLOY", DialogLayout.Bottom)
 currentScene = GameScene.DeployingShips
-let deployingText = textsprite.create("NOW DEPLOYING...")
+let deployingText = textsprite.create("A:GAMESTART B:REDEPLOY")
 deployingText.setMaxFontHeight(5)
 deployingText.setPosition(80, 86)
 let playerShipMap: number[][] = [[],[]]
