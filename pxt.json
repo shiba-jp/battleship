@@ -13,7 +13,8 @@
         "mainfunctions.ts",
         "ShipContext.ts",
         "utility.ts",
-        "FleetStatus.ts"
+        "FleetStatus.ts",
+        "EnemyAI.ts"
     ],
     "testFiles": [
         "test.ts"

@@ -31,10 +31,15 @@ game.setDialogTextColor(0)
 game.setDialogFrame(BattleshipImages.Dialog.BOTTOM_DIALOG_FRAME)
 game.showLongText("DEPLOY THE SHIPS.\nA: GAME START\nB: REDEPLOY", DialogLayout.Bottom)
 currentScene = GameScene.DeployingShips
+let deployingText = textsprite.create("NOW DEPLOYING...")
+deployingText.setMaxFontHeight(5)
+deployingText.setPosition(80, 86)
 let playerShipMap: number[][] = [[],[]]
 let enemyShipMap: number[][] = [[],[]]
 deployPlayerShips(playerShipMap)
 deployEnemyShips(enemyShipMap)
+let playerSearchList: String[] = []
+let enemy: EnemyAI = new EnemyAI()
 
 /**
  * Prepare Player Cursor
@@ -42,21 +47,20 @@ deployEnemyShips(enemyShipMap)
 let playerCursor: Sprite = null
 let playerCurosrPosX: number = 0
 let playerCurosrPosY: number = 0
-//currentScene = GameScene.PlayerTurn
 
-
+/**  
+ * Set Turn Text Sprites
+*/
 let playerAttacksText = textsprite.create("PLAYER")
-    playerAttacksText.setMaxFontHeight(5)
-    playerAttacksText.setPosition(41, 86)
-    let enemyAttacksText = textsprite.create("ENEMY")
-    enemyAttacksText.setMaxFontHeight(5)
-    enemyAttacksText.setPosition(119, 86)
-    let textVisible: boolean = true
+playerAttacksText.setMaxFontHeight(5)
+playerAttacksText.setPosition(41, 86)
+playerAttacksText.setFlag(SpriteFlag.Invisible, true)
+let enemyAttacksText = textsprite.create("ENEMY")
+enemyAttacksText.setMaxFontHeight(5)
+enemyAttacksText.setPosition(119, 86)
+enemyAttacksText.setFlag(SpriteFlag.Invisible, true)
 
 function displayAttacksText() {
-    //playerAttacksText.setFlag(SpriteFlag.Invisible, true)
-    //enemyAttacksText.setFlag(SpriteFlag.Invisible, true)
-
     if(GameScene.PlayerTurn == currentScene) {
         playerAttacksText.setFlag(SpriteFlag.Invisible, false)
         enemyAttacksText.setFlag(SpriteFlag.Invisible, true)
@@ -67,20 +71,11 @@ function displayAttacksText() {
         playerCursor.setFlag(SpriteFlag.Invisible, true)
     }
 }
-/**
-game.onUpdateInterval(500, function() {
-    if(GameScene.PlayerTurn == currentScene) {
-        //playerAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
-    }else if(GameScene.EnemyTurn == currentScene){
-        //enemyAttacksText.setFlag(SpriteFlag.Invisible, textVisible)
-    }
-    textVisible = textVisible ? false : true
-})
- */
 
 function startGame() {
     game.splash("GAME START")
     prepareCursor()
+    deployingText.destroy()
 
     if(ShipOwner.Player == randint(0, 1)) {
         currentScene = GameScene.PlayerTurn
@@ -91,17 +86,30 @@ function startGame() {
     }
 }
 
-function playerTurnAction() {
-    let ship = enemyShipMap[playerCurosrPosX][playerCurosrPosY]
+function alreadySearched(): boolean {
+    let postStr: String = playerCurosrPosX + "_" + playerCurosrPosY
 
-    if(ship == null) {
+    if(playerSearchList.indexOf(postStr) > -1) {
+        return true
+    } else {
+        playerSearchList.push(postStr)
+        return false
+    }
+}
+
+function playerTurnAction() {
+    if(alreadySearched()) return
+
+    let shipType: ShipType = enemyShipMap[playerCurosrPosX][playerCurosrPosY]
+
+    if(shipType == null) {
         let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
         failed.setPosition(playerCursor.x, playerCursor.y)
         failed.startEffect(effects.bubbles, 1000)
         failed.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
+        
     }else{
-        let shipType: ShipType = ship
         enemyStatus.hit(shipType)
 
         let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
@@ -112,7 +120,7 @@ function playerTurnAction() {
     }
 
     if(enemyStatus.wiped()){
-        pause(500)
+        pause(1000)
         game.over(true)
     }else{
         enemyTurnAction()
@@ -126,42 +134,39 @@ function enemyTurnAction() {
     displayAttacksText()
     pause(500)
 
-    let col: number = randint(0, 9)
-    let row: number = randint(0, 9)
-    let searchPos: String = col + "_" + row
+    let posStr: String = enemy.getNextPos();
+    let col: number = enemy.getNextPosX(posStr)
+    let row: number = enemy.getNextPosY(posStr)
+  
+    let shipType: ShipType = playerShipMap[col][row]
+    
+    if(shipType == null) {
+        enemy.setShipInfo(ShipType.Miss, col, row)
 
-    if(enemySearchPosList.indexOf(searchPos) > -1) {
-        enemyTurnAction()
-    } else { 
-        enemySearchPosList.push(searchPos)
-
-        let ship = playerShipMap[col][row]
+        let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
+        failed.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
+        failed.startEffect(effects.bubbles, 200)
+        failed.destroy()
+        utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, 7 + (col * 7), 8 + (row * 7))
         
-        if(ship == null) {
-            let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-            failed.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
-            failed.startEffect(effects.bubbles, 200)
-            failed.destroy()
-            utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, 7 + (col * 7), 8 + (row * 7))
-        }else{
-            let shipType: ShipType = ship
-            playerStatus.hit(shipType)
+    }else{
+        enemy.setShipInfo(shipType, col, row)
+        playerStatus.hit(shipType)
 
-            let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-            sccess.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
-            sccess.startEffect(effects.fire, 300)
-            sccess.destroy()
-            utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, 7 + (col * 7), 8 + (row * 7))
-        }
+        let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
+        sccess.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
+        sccess.startEffect(effects.fire, 300)
+        sccess.destroy()
+        utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, 7 + (col * 7), 8 + (row * 7))
+    }
 
-        if(playerStatus.wiped()){
-            pause(500)
-            game.over(false)
-        }else{
-            pause(500)
-            currentScene = GameScene.PlayerTurn
-            displayAttacksText()
-        }
+    if(playerStatus.wiped()){
+        pause(1000)
+        game.over(false)
+    }else{
+        pause(500)
+        currentScene = GameScene.PlayerTurn
+        displayAttacksText()
     }
 }
 
@@ -171,7 +176,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
     }else if(GameScene.PlayerTurn == currentScene) {
         playerTurnAction()        
     }else if(GameScene.EnemyTurn == currentScene) {
-        //enemyTurnAction()
+        return
     }
 })
 

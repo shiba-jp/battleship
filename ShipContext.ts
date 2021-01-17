@@ -9,6 +9,7 @@ enum ShipType {
     Submarine = 2,
     Battleship = 3,
     AircraftCarrier = 4,
+    Miss = 9,
 }
 
 enum ShipOwner {
