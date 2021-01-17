@@ -12,7 +12,7 @@ class EnemyAI {
 
     private createPosList() {
         for(let i = 0; i < 10; i++) {
-            for(let j = 0; j < 9; j++) {
+            for(let j = 0; j < 10; j++) {
                 this._posList.push(this.getPosString(i,j))
             }
         }
