@@ -26,12 +26,14 @@ prepareInformation()
 /** 
  * Arrange Player & Enemy Ships
 */
+game.setDialogTextColor(0)
+game.setDialogFrame(BattleshipImages.Dialog.BOTTOM_DIALOG_FRAME)
+game.showLongText("DEPLOY THE SHIPS.\nB: REDEPLOY\nA: GAME START", DialogLayout.Bottom)
 currentScene = GameScene.DeployingShips
 let playerShipMap: number[][] = [[],[]]
 let enemyShipMap: number[][] = [[],[]]
-redeployPlayerShips(playerShipMap)
+deployPlayerShips(playerShipMap)
 deployEnemyShips(enemyShipMap)
-
 
 /**
  * Prepare Player Cursor
@@ -39,8 +41,8 @@ deployEnemyShips(enemyShipMap)
 let playerCursor: Sprite = null
 let playerCurosrPosX: number = 0
 let playerCurosrPosY: number = 0
-prepareCursor()
-currentScene = GameScene.PlayerTurn
+//currentScene = GameScene.PlayerTurn
+
 
 let playerAttacksText = textsprite.create("PLAYER")
     playerAttacksText.setMaxFontHeight(5)
@@ -58,7 +60,12 @@ game.onUpdateInterval(1000, function() {
 })
 
 controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
-    if(GameScene.PlayerTurn == currentScene) {
+    if(GameScene.DeployingShips == currentScene) {
+        currentScene = GameScene.PlayerTurn
+        game.splash("GAME START")
+        prepareCursor()
+
+    }else if(GameScene.PlayerTurn == currentScene) {
         let ship = enemyShipMap[playerCurosrPosX][playerCurosrPosY]
         if(ship == null) {
             let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
@@ -85,6 +92,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
 })
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
+    if(GameScene.DeployingShips == currentScene) {
+        redeployPlayerShips(playerShipMap)
+    }
 
 })
 

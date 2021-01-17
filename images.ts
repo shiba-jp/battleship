@@ -249,6 +249,21 @@ namespace BattleshipImages {
         constructor(){}
     }
 
+    export class Dialog {
+        static BOTTOM_DIALOG_FRAME: Image = img`
+            1 1 1 1 1 1 1 1 1 1 1 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 f f f f f f f f f f 1
+            1 1 1 1 1 1 1 1 1 1 1 1
+        `;
+    }
+
     export class MapItem {
         static ATTACK_MISS: Image = img`
             d . . . . d
