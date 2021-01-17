@@ -12,8 +12,8 @@ enum ShipType {
 }
 
 enum ShipOwner {
-    Player,
-    Enemy
+    Player = 0,
+    Enemy = 1,
 }
 
 class ShipContext {
