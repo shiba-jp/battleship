@@ -73,11 +73,15 @@ function displayAttacksText() {
 }
 
 function startGame() {
-    game.splash("GAME START")
+    let playerFistMove: boolean = ShipOwner.Player == randint(0, 1)
+    let subTiltle: string = playerFistMove ? "PLAYER" : "ENEMY"
+    subTiltle = subTiltle + "'S FIST MOVE"
+    
+    game.splash("GAME START", subTiltle)
     prepareCursor()
     deployingText.destroy()
 
-    if(ShipOwner.Player == randint(0, 1)) {
+    if(playerFistMove) {
         currentScene = GameScene.PlayerTurn
         displayAttacksText()
     }else {
