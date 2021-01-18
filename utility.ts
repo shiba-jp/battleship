@@ -32,4 +32,26 @@ namespace utility {
         }
         console.log("----------------------------------------")
     }
+
+    export function getShipLength(shipType: ShipType): number {
+        let length = 0
+
+        switch(shipType) {
+            case ShipType.PatrolBoat:
+                length = 2
+                break
+            case ShipType.Cruiser:
+            case ShipType.Submarine:
+                length = 3
+                break
+            case ShipType.Battleship:
+                length = 4
+                break
+            case ShipType.AircraftCarrier:
+                length = 5
+                break
+        }
+
+        return length
+    }
 }
