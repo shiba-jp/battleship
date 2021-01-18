@@ -12,9 +12,12 @@ class HitShipInfo {
 
     shipLength: number = null
 
-    constructor(shipType: ShipType ) {
+    enemyStrategyMap: number[][] = null
+
+    constructor(shipType: ShipType, enemyStrategyMap: number[][]) {
         this.shipType = shipType
         this.shipLength = utility.getShipLength(shipType)
+        this.enemyStrategyMap = enemyStrategyMap
     }
 
     hasSunk(): boolean {
@@ -23,7 +26,108 @@ class HitShipInfo {
 
     direction() :HitShipDirection {
         if(this.hitPosX.length < 2) {
-            return HitShipDirection.Unknown
+            let xSpaceCount: number = 0
+            let ySpaceCount: number = 0
+
+            let x: number = this.hitPosX[0]
+            let y: number = this.hitPosY[0]
+
+            let result: HitShipDirection = HitShipDirection.Unknown
+
+            if(x == 0){
+                for(let i = x + 1; i < 10; i++){
+                    if(this.enemyStrategyMap[i][y] == null) {
+                        xSpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceX: number = xSpaceCount + 1
+                if(this.shipLength > spaceX) {
+                    result = HitShipDirection.Vertical
+                }
+            }
+            if(x == 9){
+                for(let i = x - 1; i >= 0; i--){
+                    if(this.enemyStrategyMap[i][y] == null) {
+                        xSpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceX: number = xSpaceCount + 1
+                if(this.shipLength > spaceX) {
+                    result = HitShipDirection.Vertical
+                }
+            }
+            if(y == 0){
+                for(let i = y + 1; i < 10; i++){
+                    if(this.enemyStrategyMap[x][i] == null) {
+                        ySpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceY: number = ySpaceCount + 1
+                if(this.shipLength > spaceY) {
+                    result = HitShipDirection.Horizontal
+                }
+            }
+            if(y == 9){
+                for(let i = y - 1; i >= 0; i--){
+                    if(this.enemyStrategyMap[x][i] == null) {
+                        ySpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceY: number = ySpaceCount + 1
+                if(this.shipLength > spaceY) {
+                    result = HitShipDirection.Horizontal
+                }
+            }
+            if(x > 0 && x < 9) {
+                for(let i = x + 1; i < 10; i++){
+                    if(this.enemyStrategyMap[i][y] == null) {
+                        xSpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                for(let i = x - 1; i >= 0; i--){
+                    if(this.enemyStrategyMap[i][y] == null) {
+                        xSpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceX: number = xSpaceCount + 1
+                if(this.shipLength > spaceX) {
+                    result = HitShipDirection.Vertical
+                }
+            }
+            if(y > 0 && y < 9) {
+                for(let i = y + 1; i < 10; i++){
+                    if(this.enemyStrategyMap[x][i] == null) {
+                        ySpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                for(let i = y - 1; i >= 0; i--){
+                    if(this.enemyStrategyMap[x][i] == null) {
+                        ySpaceCount += 1
+                    }else{
+                        break
+                    }
+                }
+                let spaceY: number = ySpaceCount + 1
+                if(this.shipLength > spaceY) {
+                    result = HitShipDirection.Horizontal
+                }
+            }
+
+            return result
         }else if(this.hitPosX[0] == this.hitPosX[1]) {
             return HitShipDirection.Vertical
         }else {
@@ -60,7 +164,7 @@ class EnemyAI {
 
         if(ShipType.Miss != shipType) {
             if(!this.hitShips.some(s => s.shipType === shipType)) {
-                let hitShip: HitShipInfo = new HitShipInfo(shipType)
+                let hitShip: HitShipInfo = new HitShipInfo(shipType, this.enemyStrategyMap)
                 this.hitShips.push(hitShip)
             }
 
