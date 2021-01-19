@@ -178,6 +178,15 @@ class EnemyAI {
                 this.posList.push(this.getPosString(i,j))
             }
         }
+
+        this.shufflePosList()
+    }
+
+    shufflePosList() {
+        for (let i = this.posList.length; 1 < i; i--) {
+            let k = Math.floor(Math.random() * i);
+            [this.posList[k], this.posList[i - 1]] = [this.posList[i - 1], this.posList[k]];
+        }
     }
 
     /**
@@ -418,7 +427,7 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
-            let posString: String = this.posList[randint(0, this.posList.length - 1)]
+            let posString: String = this.posList[0]
             return posString
         }
     }
