@@ -126,12 +126,36 @@ class HitShipInfo {
                     result = HitShipDirection.Horizontal
                 }
             }
-
             return result
         }else if(this.hitPosX[0] == this.hitPosX[1]) {
             return HitShipDirection.Vertical
         }else {
             return HitShipDirection.Horizontal
+        }
+    }
+
+    addHitPos(x: number, y: number) {
+        this.hitPosX.push(x)
+        this.hitPosY.push(y)
+
+        this.sortHitPos()
+    }
+
+    sortHitPos() {
+        for(let i = this.hitPosX.length; i >= 0; i--) {
+            for(let j = 0; j < i; j++) {
+                if(this.hitPosX[j] > this.hitPosX[j+1]) {
+                    this.hitPosX = utility.swap(this.hitPosX, j, (j + 1))
+                }
+            }
+        }
+
+        for(let i = this.hitPosY.length; i >= 0; i--) {
+            for(let j = 0; j < i; j++) {
+                if(this.hitPosY[j] > this.hitPosY[j+1]) {
+                    this.hitPosY = utility.swap(this.hitPosY, j, (j + 1))
+                }
+            }
         }
     }
 }
@@ -163,23 +187,72 @@ class EnemyAI {
         this.enemyStrategyMap[x][y] = shipType
 
         if(ShipType.Miss != shipType) {
-            if(!this.hitShips.some(s => s.shipType === shipType)) {
+            if(!this.hitShips.some(s => s.shipType == shipType)) {
                 let hitShip: HitShipInfo = new HitShipInfo(shipType, this.enemyStrategyMap)
                 this.hitShips.push(hitShip)
             }
 
-            let hitShip = this.hitShips.find(s => s.shipType === shipType)
-            hitShip.hitPosX.push(x)
-            hitShip.hitPosY.push(y)
+            let hitShip = this.hitShips.find(s => s.shipType == shipType)
+            hitShip.addHitPos(x, y)
         }
         
         let posIndex = this.posList.indexOf(this.getPosString(x, y))
         this.posList.splice(posIndex, 1)
+
+        this.analyzeMap()
     }
 
-    swap(arr:number[], i:number, j:number){
-        arr[i] = [arr[j], arr[j] = arr[i]][0];
-        return arr;
+    analyzeMap() {
+        let minShipLength: number = this.getNotFoundShipsMinLength()
+        let ignorePosList: String[] = []
+
+        this.posList.forEach(pos => {
+            if(!this.existShipSpace(this.getPosX(pos), this.getPosY(pos), minShipLength)) {
+                ignorePosList.push(pos)
+            }
+        });
+
+        ignorePosList.forEach(pos => {
+            let posIndex = this.posList.indexOf(pos)
+            this.posList.splice(posIndex, 1)
+        })
+    }
+
+    existShipSpace(x: number, y: number, shipLength: number): boolean {
+        let xCount = this.countSpaceX(x, y) 
+        let yCount = this.countSpaceY(x, y)
+
+        if( xCount < shipLength && yCount < shipLength) {
+            console.logValue("x", x)
+            console.logValue("y", y)
+            console.logValue("xCount", xCount)
+            console.logValue("yCount", yCount)
+            console.logValue("shipLength", shipLength)
+        }
+
+        return xCount >= shipLength || yCount >= shipLength 
+    }
+
+    getNotFoundShipsMinLength(): number {
+        let lengthList: number[] = []
+
+        for(let i = 0; i < 5; i++) {
+            let hitShip = this.hitShips.find(s => s.shipType == i)
+            
+            if(hitShip != null && hitShip.hasSunk()) continue
+
+            lengthList.push(utility.getShipLength(i))
+        }
+
+        for(let i = lengthList.length; i >= 0; i--) {
+            for(let j = 0; j < i; j++) {
+                if(lengthList[j] > lengthList[j+1]) {
+                    lengthList = utility.swap(lengthList, j, (j + 1))
+                }
+            }
+        }
+
+        return lengthList[0]
     }
 
     /**
@@ -188,22 +261,6 @@ class EnemyAI {
     public getNextPos(): String {
         if(this.hitShips.length != null && this.hitShips.some(s => !s.hasSunk())) {
             let target: HitShipInfo = this.hitShips.find(s => !s.hasSunk())
-
-            for(let i = target.hitPosX.length; i >= 0; i--) {
-                for(let j = 0; j < i; j++) {
-                    if(target.hitPosX[j] > target.hitPosX[j+1]) {
-                        target.hitPosX = this.swap(target.hitPosX, j, (j + 1))
-                    }
-                }
-            }
-
-            for(let i = target.hitPosY.length; i >= 0; i--) {
-                for(let j = 0; j < i; j++) {
-                    if(target.hitPosY[j] > target.hitPosY[j+1]) {
-                        target.hitPosY = this.swap(target.hitPosY, j, (j + 1))
-                    }
-                }
-            }
 
             let minX = target.hitPosX[0];
             let maxX = target.hitPosX[target.hitPosX.length - 1]
@@ -248,6 +305,54 @@ class EnemyAI {
                     }else {
                         nextX = maxX
                         nextY = maxY + 1
+                    }
+                }else if(minX == 0 && minY > 0 && minY < 9) {
+                    //left side
+                    if(this.enemyStrategyMap[minX][minY + 1] == null) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else  if(this.enemyStrategyMap[minX][minY - 1] == null) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else {
+                        nextX = minX + 1
+                        nextY = minY
+                    }
+                }else if(minX == 9 && minY > 0 && minY < 9) {
+                    //right side
+                    if(this.enemyStrategyMap[minX][minY + 1] == null) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else  if(this.enemyStrategyMap[minX][minY - 1] == null) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else {
+                        nextX = minX -1
+                        nextY = minY
+                    }
+                }else if(minX > 0 && minX < 9 && minY == 0) {
+                    //Top side
+                    if(this.enemyStrategyMap[minX][minY + 1] == null) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else  if(this.enemyStrategyMap[minX + 1][minY] == null) {
+                        nextX = minX + 1
+                        nextY = minY
+                    }else {
+                        nextX = minX - 1
+                        nextY = minY
+                    }
+                }else if(minX > 0 && minX < 9 && minY == 9) {
+                    //Bottom side
+                    if(this.enemyStrategyMap[minX][minY - 1] == null) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else  if(this.enemyStrategyMap[minX + 1][minY] == null) {
+                        nextX = minX + 1
+                        nextY = minY
+                    }else {
+                        nextX = minX - 1
+                        nextY = minY
                     }
                 }else {
                     //inner
@@ -318,17 +423,98 @@ class EnemyAI {
         }
     }
 
-   
-
-    public getNextPosX(posString: String): number {
+    public getPosX(posString: String): number {
         return parseInt(posString.split('_')[0]);
     }
 
-    public getNextPosY(posString: String): number {
+    public getPosY(posString: String): number {
         return parseInt(posString.split('_')[1]);
     }
 
     private getPosString(x: number, y: number): String {
         return x + "_" + y
+    }
+
+    countSpaceX(x: number, y: number): number {
+        let xSpaceCount: number = 0
+
+        if(x == 0){
+            for(let i = x + 1; i < 10; i++){
+                if(this.enemyStrategyMap[i][y] == null) {
+                    xSpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            return xSpaceCount + 1
+        }else if(x == 9){
+            for(let i = x - 1; i >= 0; i--){
+                if(this.enemyStrategyMap[i][y] == null) {
+                    xSpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            return xSpaceCount + 1
+        }else {
+            for(let i = x + 1; i < 10; i++){
+                if(this.enemyStrategyMap[i][y] == null) {
+                    xSpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            for(let i = x - 1; i >= 0; i--){
+                if(this.enemyStrategyMap[i][y] == null) {
+                    xSpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            return xSpaceCount + 1
+        }
+    }
+
+    countSpaceY(x: number, y: number): number {
+        let ySpaceCount: number = 0
+
+        if(y == 0){
+            for(let i = y + 1; i < 10; i++){
+                if(this.enemyStrategyMap[x][i] == null) {
+                    ySpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            
+            return ySpaceCount + 1
+        }else if(y == 9){
+            for(let i = y - 1; i >= 0; i--){
+                if(this.enemyStrategyMap[x][i] == null) {
+                    ySpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            
+            return ySpaceCount + 1
+        }else {
+            for(let i = y + 1; i < 10; i++){
+                if(this.enemyStrategyMap[x][i] == null) {
+                    ySpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            for(let i = y - 1; i >= 0; i--){
+                if(this.enemyStrategyMap[x][i] == null) {
+                    ySpaceCount += 1
+                }else{
+                    break
+                }
+            }
+            
+            return ySpaceCount + 1
+        }
     }
 }

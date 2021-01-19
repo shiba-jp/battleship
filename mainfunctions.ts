@@ -1,6 +1,9 @@
 function prepareCursor() {
     playerCursor = sprites.create(BattleshipImages.MapItem.CURSOR)
     playerCursor.setPosition(87, 11)
+    enemyCursor = sprites.create(BattleshipImages.MapItem.CURSOR)
+    enemyCursor.setFlag(SpriteFlag.Invisible, true)
+
     controller.up.onEvent(ControllerButtonEvent.Pressed, function() {
         if(GameScene.PlayerTurn != currentScene) return
 

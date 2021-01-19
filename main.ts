@@ -47,6 +47,7 @@ let enemy: EnemyAI = new EnemyAI()
 let playerCursor: Sprite = null
 let playerCurosrPosX: number = 0
 let playerCurosrPosY: number = 0
+let enemyCursor: Sprite = null
 
 /**  
  * Set Turn Text Sprites
@@ -75,7 +76,7 @@ function displayAttacksText() {
 function startGame() {
     let playerFistMove: boolean = ShipOwner.Player == randint(0, 1)
     let subTiltle: string = playerFistMove ? "PLAYER" : "ENEMY"
-    subTiltle = subTiltle + "'S FIST MOVE"
+    subTiltle = subTiltle + "'S FIRST MOVE"
     
     game.splash("GAME START", subTiltle)
     prepareCursor()
@@ -131,16 +132,18 @@ function playerTurnAction() {
     }
 }
 
-let enemySearchPosList: String[] = []
-
 function enemyTurnAction() {
     currentScene = GameScene.EnemyTurn
     displayAttacksText()
-    pause(500)
     
-    let posStr: String = enemy.getNextPos();
-    let col: number = enemy.getNextPosX(posStr)
-    let row: number = enemy.getNextPosY(posStr)
+    let nextPosStr: String = enemy.getNextPos();
+    let col: number = enemy.getPosX(nextPosStr)
+    let row: number = enemy.getPosY(nextPosStr)
+    let posX: number = 7 + (col * 7) + 3
+    let posY: number = 8 + (row * 7) + 3
+    enemyCursor.setPosition(posX, posY)
+    enemyCursor.setFlag(SpriteFlag.Invisible, false)
+    pause(500)
   
     let shipType: ShipType = playerShipMap[col][row]
     
@@ -148,20 +151,20 @@ function enemyTurnAction() {
         enemy.setShipInfo(ShipType.Miss, col, row)
 
         let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-        failed.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
+        failed.setPosition(posX, posY)
         failed.startEffect(effects.bubbles, 200)
         failed.destroy()
-        utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, 7 + (col * 7), 8 + (row * 7))
+        utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, posX - 3, posY - 3)
         
     }else{
         enemy.setShipInfo(shipType, col, row)
         playerStatus.hit(shipType)
 
         let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-        sccess.setPosition(7 + (col * 7) + 3, 8 + (row * 7) + 3)
+        sccess.setPosition(posX, posY)
         sccess.startEffect(effects.fire, 300)
         sccess.destroy()
-        utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, 7 + (col * 7), 8 + (row * 7))
+        utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, posX - 3, posY - 3)
     }
 
     if(playerStatus.wiped()){
@@ -169,6 +172,7 @@ function enemyTurnAction() {
         game.over(false)
     }else{
         pause(500)
+        enemyCursor.setFlag(SpriteFlag.Invisible, true)
         currentScene = GameScene.PlayerTurn
         displayAttacksText()
     }
