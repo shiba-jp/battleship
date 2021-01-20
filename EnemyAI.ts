@@ -271,6 +271,13 @@ class EnemyAI {
                 if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
                 if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
                 if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+
+                if(this.posList.length >= 80) {
+                    if(this.enemyStrategyMap[x - 1][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y + 1] == null) nullCount++
+                }
             })
 
             if(this.evalutionList.some(p => p.pos == pos)){
@@ -498,7 +505,9 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
-            if(this.evalutionList.some(p => p.evaluationValue == 4)) {
+            if(this.evalutionList.some(p => p.evaluationValue == 8)) {
+                return this.evalutionList.find(p => p.evaluationValue == 8).pos
+            }else if(this.evalutionList.some(p => p.evaluationValue == 4)) {
                 return this.evalutionList.find(p => p.evaluationValue == 4).pos
             }else if(this.evalutionList.some(p => p.evaluationValue == 3)) {
                 return this.evalutionList.find(p => p.evaluationValue == 3).pos
