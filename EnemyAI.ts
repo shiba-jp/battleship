@@ -160,12 +160,25 @@ class HitShipInfo {
     }
 }
 
+class Pos {
+    pos: string
+
+    evaluationValue: number
+
+    constructor(pos: string, evaluationValue: number) {
+        this.pos = pos
+        this.evaluationValue = evaluationValue
+    }
+}
+
 class EnemyAI {
     enemyStrategyMap: number[][] = [[],[]]
 
     hitShips: HitShipInfo[] = []
 
-    posList: String[] = []
+    posList: string[] = []
+
+    evalutionList: Pos[] = []
 
     constructor() {
         utility.initilaizeMap(this.enemyStrategyMap)
@@ -179,14 +192,7 @@ class EnemyAI {
             }
         }
 
-        this.shufflePosList()
-    }
-
-    shufflePosList() {
-        for (let i = this.posList.length; 1 < i; i--) {
-            let k = Math.floor(Math.random() * i);
-            [this.posList[k], this.posList[i - 1]] = [this.posList[i - 1], this.posList[k]];
-        }
+        utility.shufflePosList<string>(this.posList)
     }
 
     /**
@@ -208,12 +214,77 @@ class EnemyAI {
         let posIndex = this.posList.indexOf(this.getPosString(x, y))
         this.posList.splice(posIndex, 1)
 
-        this.analyzeMap()
+        if(this.posList.length <= 80) {
+            this.removeImpossiblePos()
+        }
+
+        this.evaluationPos()
     }
 
-    analyzeMap() {
+    evaluationPos() {
+        this.evalutionList = []
+
+        this.posList.forEach(pos => {
+            let x: number = this.getPosX(pos)
+            let y: number = this.getPosY(pos)
+            let nullCount: number = 0
+
+            utility.procAllPtn(x, y, 
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+            })
+
+            if(this.evalutionList.some(p => p.pos == pos)){
+                let el: Pos = this.evalutionList.find(p => p.pos == pos)
+                el.evaluationValue = nullCount
+            }else{
+                this.evalutionList.push(new Pos(pos, nullCount))
+            }
+        })
+    }
+
+    removeImpossiblePos() {
         let minShipLength: number = this.getNotFoundShipsMinLength()
-        let ignorePosList: String[] = []
+        let ignorePosList: string[] = []
 
         this.posList.forEach(pos => {
             if(!this.existShipSpace(this.getPosX(pos), this.getPosY(pos), minShipLength)) {
@@ -267,7 +338,7 @@ class EnemyAI {
     /**
      * Think Next Move
      */
-    public getNextPos(): String {
+    public getNextPos(): string {
         if(this.hitShips.length != null && this.hitShips.some(s => !s.hasSunk())) {
             let target: HitShipInfo = this.hitShips.find(s => !s.hasSunk())
 
@@ -427,20 +498,30 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
-            let posString: String = this.posList[0]
-            return posString
+            if(this.evalutionList.some(p => p.evaluationValue == 4)) {
+                return this.evalutionList.find(p => p.evaluationValue == 4).pos
+            }else if(this.evalutionList.some(p => p.evaluationValue == 3)) {
+                return this.evalutionList.find(p => p.evaluationValue == 3).pos
+            }else if(this.evalutionList.some(p => p.evaluationValue == 2)) {
+                return this.evalutionList.find(p => p.evaluationValue == 2).pos
+            }else {
+              let posString: string = this.posList[0]
+                return posString  
+            }
+            //let posString: string = this.posList[0]
+            //return posString
         }
     }
 
-    public getPosX(posString: String): number {
+    getPosX(posString: string): number {
         return parseInt(posString.split('_')[0]);
     }
 
-    public getPosY(posString: String): number {
+    getPosY(posString: string): number {
         return parseInt(posString.split('_')[1]);
     }
 
-    private getPosString(x: number, y: number): String {
+    getPosString(x: number, y: number): string {
         return x + "_" + y
     }
 

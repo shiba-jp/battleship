@@ -59,4 +59,45 @@ namespace utility {
         arr[i] = [arr[j], arr[j] = arr[i]][0];
         return arr;
     }
+
+    export function shufflePosList<T>(arr: T[]) {
+        for (let i = arr.length; 1 < i; i--) {
+            let k = Math.floor(Math.random() * i);
+            [arr[k], arr[i - 1]] = [arr[i - 1], arr[k]];
+        }
+    }
+
+    export function procAllPtn(x: number, y: number, 
+            leftTop: Action, rightTop: Action, leftBottom: Action, rightBottom: Action,
+            leftSide: Action, rightSide: Action, topSide: Action, bottomSide: Action,
+            inSide: Action) {
+
+        if(x == 0 && y == 0) {
+            leftTop()
+        }
+        if(x == 9 && y == 0) {
+            rightTop()
+        }
+        if(x == 0 && y == 9) {
+            leftBottom()
+        }
+        if(x == 9 && y == 9) {
+            rightBottom()
+        }
+        if(x == 0 && (y > 0 && y < 9)) {
+            leftSide()
+        }
+        if(x == 9 && (y > 0 && y < 9)) {
+            rightSide()
+        }
+        if((x > 0 && x < 9) && y ==0) {
+            topSide()
+        }
+        if((x > 0 && x < 9) && y ==9) {
+            bottomSide()
+        }
+        if((x > 0 && x < 9) && (y > 0 && y < 9)) {
+            inSide()
+        }
+    }
 }

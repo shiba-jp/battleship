@@ -44,13 +44,27 @@ class ShipContext {
         this.deploy(shipMap)
     }
 
+    private getShuffledNum(length: number): number {
+        let result: number[] = []
+        for(let i = 0; i < length; i++) {
+            result.push(i)
+        }
+
+        utility.shufflePosList<number>(result)
+
+        return result[randint(0, length - 1)];
+        //return result[0]
+    }
+
     private deploy(shipMap: number[][]) {
         let shipLength: number = this.getShipLength()
         let max: number = 9 - shipLength;
         let shipImage: Image = null
 
-        let posX: number = randint(0, this._derection == ShipDirection.Horizontal ? max : 9)
-        let posY: number = randint(0, this._derection == ShipDirection.Vertical ? max : 9)
+        let posX: number = this._derection == ShipDirection.Horizontal ? this.getShuffledNum(max + 1) : this.getShuffledNum(10)
+        let posY: number = this._derection == ShipDirection.Vertical ? this.getShuffledNum(max + 1) : this.getShuffledNum(10)
+        //let posX: number = randint(0, this._derection == ShipDirection.Horizontal ? max : 9)
+        //let posY: number = randint(0, this._derection == ShipDirection.Vertical ? max : 9)
         let imgStartX: number = this._owner == ShipOwner.Player ? 6 : 83
 
         if(this.canDeploy(posX, posY, shipLength, shipMap)) {

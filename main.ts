@@ -136,7 +136,7 @@ function enemyTurnAction() {
     currentScene = GameScene.EnemyTurn
     displayAttacksText()
     
-    let nextPosStr: String = enemy.getNextPos();
+    let nextPosStr: string = enemy.getNextPos();
     let col: number = enemy.getPosX(nextPosStr)
     let row: number = enemy.getPosY(nextPosStr)
     let posX: number = 7 + (col * 7) + 3
@@ -171,8 +171,9 @@ function enemyTurnAction() {
         pause(1000)
         game.over(false)
     }else{
-        pause(500)
+        pause(300)
         enemyCursor.setFlag(SpriteFlag.Invisible, true)
+        pause(200)
         currentScene = GameScene.PlayerTurn
         displayAttacksText()
     }
