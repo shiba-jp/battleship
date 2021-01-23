@@ -100,6 +100,16 @@ namespace utility {
         return image
     }
 
+    export function sortNumArray(arr: number[]) {
+        for(let i = arr.length; i >= 0; i--) {
+            for(let j = 0; j < i; j++) {
+                if(arr[j] > arr[j+1]) {
+                    arr = utility.swap(arr, j, (j + 1))
+                }
+            }
+        }
+    }
+
     export function swap(arr: number[], i:number, j:number){
         arr[i] = [arr[j], arr[j] = arr[i]][0];
         return arr;

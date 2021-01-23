@@ -134,11 +134,14 @@ function playerTurnAction() {
     }
 }
 
+let enemyCount: number = 0
+
 function enemyTurnAction() {
     currentScene = GameScene.EnemyTurn
     displayAttacksText()
     
     let nextPosStr: string = enemy.getNextPos();
+    enemyCount++
     let col: number = enemy.getPosX(nextPosStr)
     let row: number = enemy.getPosY(nextPosStr)
     let posX: number = 7 + (col * 7) + 3
@@ -192,6 +195,7 @@ function gameOver() {
     resultText.setPosition(80, 86)
     visibleEnemyShips(true)
     changeEnemyShipsColor()
+    //game.splash(enemyCount.toString())
 }
 
 controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
