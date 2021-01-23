@@ -110,19 +110,19 @@ function playerTurnAction() {
     let shipType: ShipType = enemyShipMap[playerCurosrPosX][playerCurosrPosY]
 
     if(shipType == null) {
-        let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-        failed.setPosition(playerCursor.x, playerCursor.y)
-        failed.startEffect(effects.bubbles, 1000)
-        failed.destroy()
+        let miss = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
+        miss.setPosition(playerCursor.x, playerCursor.y)
+        miss.startEffect(effects.bubbles, 1000)
+        miss.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, playerCursor.x - 3, playerCursor.y - 3)
         
     }else{
         enemyStatus.hit(shipType)
 
-        let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-        sccess.setPosition(playerCursor.x, playerCursor.y)
-        sccess.startEffect(effects.fire, 1000)
-        sccess.destroy()
+        let hit = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
+        hit.setPosition(playerCursor.x, playerCursor.y)
+        hit.startEffect(effects.fire, 1000)
+        hit.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, playerCursor.x - 3, playerCursor.y - 3)
     }
 
@@ -155,20 +155,20 @@ function enemyTurnAction() {
     if(shipType == null) {
         enemy.setShipInfo(ShipType.Miss, col, row)
 
-        let failed = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
-        failed.setPosition(posX, posY)
-        failed.startEffect(effects.bubbles, 200)
-        failed.destroy()
+        let miss = sprites.create(BattleshipImages.MapItem.ATTACK_MISS)
+        miss.setPosition(posX, posY)
+        miss.startEffect(effects.bubbles, 200)
+        miss.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_MISS, posX - 3, posY - 3)
         
     }else{
         enemy.setShipInfo(shipType, col, row)
         playerStatus.hit(shipType)
 
-        let sccess = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
-        sccess.setPosition(posX, posY)
-        sccess.startEffect(effects.fire, 300)
-        sccess.destroy()
+        let hit = sprites.create(BattleshipImages.MapItem.ATTACK_HIT)
+        hit.setPosition(posX, posY)
+        hit.startEffect(effects.fire, 300)
+        hit.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, posX - 3, posY - 3)
     }
 
