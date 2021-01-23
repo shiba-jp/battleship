@@ -55,6 +55,51 @@ namespace utility {
         return length
     }
 
+    export function getShipImage(shipType: ShipType, direction: ShipDirection): Image {
+        let image: Image = null
+
+        if(ShipDirection.Horizontal == direction) {
+            switch(shipType) {
+                case ShipType.PatrolBoat:
+                    image = (new BattleshipImages.Ship).PATROL_BOAT_H
+                    break
+                case ShipType.Cruiser:
+                    image = (new BattleshipImages.Ship).CRUISER_H
+                    break
+                case ShipType.Submarine:
+                    image = (new BattleshipImages.Ship).SUBMARINE_H
+                    break
+                case ShipType.Battleship:
+                    image = (new BattleshipImages.Ship).BATTLESHIP_H
+                    break
+                case ShipType.AircraftCarrier:
+                    image = (new BattleshipImages.Ship).AIRCRAFT_CARRIER_H
+                    break
+            }
+        }else {
+            switch(shipType) {
+                case ShipType.PatrolBoat:
+                    image = (new BattleshipImages.Ship).PATROL_BOAT_V
+                    break
+                case ShipType.Cruiser:
+                    image = (new BattleshipImages.Ship).CRUISER_V
+                    break
+                case ShipType.Submarine:
+                    image = (new BattleshipImages.Ship).SUBMARINE_V
+                    break
+                case ShipType.Battleship:
+                    image = (new BattleshipImages.Ship).BATTLESHIP_V
+                    break
+                case ShipType.AircraftCarrier:
+                    image = (new BattleshipImages.Ship).AIRCRAFT_CARRIER_V
+                    break
+            }
+        }
+        
+
+        return image
+    }
+
     export function swap(arr: number[], i:number, j:number){
         arr[i] = [arr[j], arr[j] = arr[i]][0];
         return arr;

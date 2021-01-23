@@ -25,6 +25,8 @@ class ShipContext {
 
     private _owner: ShipOwner
 
+    private _shipSprite: Sprite
+
     get shipType(): ShipType {
         return this._shipType
     }
@@ -35,6 +37,10 @@ class ShipContext {
 
     get owner(): ShipOwner {
         return this._owner
+    }
+
+    get shipSprite(): Sprite {
+        return this._shipSprite
     }
 
     constructor(shipType: ShipType, owner: ShipOwner, shipMap: number[][]) {
@@ -66,23 +72,41 @@ class ShipContext {
         //let posX: number = randint(0, this._derection == ShipDirection.Horizontal ? max : 9)
         //let posY: number = randint(0, this._derection == ShipDirection.Vertical ? max : 9)
         let imgStartX: number = this._owner == ShipOwner.Player ? 6 : 83
+        let spriteStartX: number = this._owner == ShipOwner.Player ? 8 : 86
 
         if(this.canDeploy(posX, posY, shipLength, shipMap)) {
             if(this._derection == ShipDirection.Horizontal) {
                 for(let i = posX; i < posX + shipLength; i++) {
                     shipMap[i][posY] = this._shipType
                 }
-                shipImage = BattleshipImages.Ship.SHIP_IMAGES_H[this.shipType]
+
+                shipImage = utility.getShipImage(this.shipType, ShipDirection.Horizontal)
             }else if(this._derection == ShipDirection.Vertical) {
                 for(let j = posY; j < posY + shipLength; j++) {
                     shipMap[posX][j] = this._shipType
                 }
-                shipImage = BattleshipImages.Ship.SHIP_IMAGES_V[this.shipType]
+
+                shipImage = utility.getShipImage(this.shipType, ShipDirection.Vertical)
             }
 
             if(ShipOwner.Player == this._owner) {
                 if(randint(0, 1) == 1) shipImage = shipImage.rotated(180)
                 scene.backgroundImage().drawTransparentImage(shipImage, imgStartX + (posX * 7), 7 + (posY * 7))
+            }else {
+                if(randint(0, 1) == 1) shipImage = shipImage.rotated(180)
+                this._shipSprite = sprites.create(shipImage)
+                let spriteX: number = 0
+                let spriteY: number = 0
+                if(this._derection == ShipDirection.Horizontal) {
+                    spriteX = spriteStartX + ((posX + Math.floor(shipLength / 2)) * 7) + (shipLength % 2 == 0 ? -2 : 1)
+                    spriteY = 7 + (posY * 7) + 4
+                    
+                }else {
+                    spriteX = imgStartX + (posX * 7) + 4
+                    spriteY = 10 + ((posY + Math.floor(shipLength / 2)) * 7) + (shipLength % 2 == 0 ? -2 : 1)
+                }
+                this._shipSprite.setPosition(spriteX, spriteY)
+                this._shipSprite.setFlag(SpriteFlag.Invisible, true)
             }
         } else {
             this.deploy(shipMap)

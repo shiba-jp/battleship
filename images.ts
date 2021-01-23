@@ -295,222 +295,7 @@ namespace BattleshipImages {
         `;
     }
 
-
-
     export class Ship {
-        static PATROL_BOAT_H: Image = img`
-            . . . . . . . . . . . . . . .
-            . f f f f f f f f f f f . . .
-            . f b b b b c c c 9 b b f . .
-            . f b b c c c c c c 9 b b f .
-            . f b b c c c c c c 9 b b f .
-            . f b b b b c c c 9 b b f . .
-            . f f f f f f f f f f f . . .
-            . . . . . . . . . . . . . . .
-        `;
-
-        static CRUISER_H: Image = img`
-            . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . f f f f f f f f f f f f . . . . .
-            . . . f f b b b b b b f b b b f b f f . . .
-            . f f b b b f f b b b f b f b f b b b f f .
-            . f f b b b b b f b b f b f b f b b b f f .
-            . . . f f b b b b b b f b b b f b f f . . .
-            . . . . . f f f f f f f f f f f f . . . . .
-            . . . . . . . . . . . . . . . . . . . . . .
-        `;
-
-        static SUBMARINE_H: Image = img`
-            . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . . f f f f f f f f f f f f f . . .
-            . f f . f f b b b b b b b b b b b b b f . .
-            . f b f f b b b b b b b f f f f b b b b f .
-            . f b f f b b b b b b b f f f f b b b b f .
-            . f f . f f b b b b b b b b b b b b b f . .
-            . . . . . . f f f f f f f f f f f f f . . .
-            . . . . . . . . . . . . . . . . . . . . . .
-        `;
-
-        static BATTLESHIP_H: Image = img`
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-            . . . . . . f f f f f f f f f f f f f f f f f . . . . . .
-            . . . f f f b b b f b b f f f f f b b f b b b f f f . . .
-            . f f b b b b f f f b f c c c c c f b f f f b b b b f f .
-            . f f b b b b f f f b f c c c c c f b f f f b b b b f f .
-            . . . f f f b b b f b b f f f f f b b f b b b f f f . . .
-            . . . . . . f f f f f f f f f f f f f f f f f . . . . . .
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-        `;
-
-        static AIRCRAFT_CARRIER_H: Image = img`
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-            . f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f .
-            . f b b b b b b f c c f b b b b b b b b b b b b b b b b b b b b b b f .
-            . f b f f b b f f c c f b b f f b f f b f f b f f b f f b f f b f b f .
-            . f b b b b b f f c c f b b b b b b b b b b b b b b b b b b b b b b f .
-            . . f f f f b b f c c f b b b b b b b b b b b b b b b b b b b b b b f .
-            . . . . . . f f f f f f f f f f f f f f f f f f f f f f f f f f f f . .
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-        `;
-
-        static PATROL_BOAT_V: Image = img`
-            . . . . . . . .
-            . . . f f . . .
-            . . f b b f . .
-            . f b b b b f .
-            . f b 9 9 b f .
-            . f 9 c c 9 f .
-            . f c c c c f .
-            . f c c c c f .
-            . f c c c c f .
-            . f b c c b f .
-            . f b c c b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f f f f f f .
-            . . . . . . . .
-        `;
-
-        static CRUISER_V: Image = img`
-            . . . . . . . .
-            . . . f f . . .
-            . . . f f . . .
-            . . f b b f . .
-            . . f b b f . .
-            . f b b b b f .
-            . f f f f f f .
-            . f b b b b f .
-            . f b f f b f .
-            . f b b b b f .
-            . f f f f f f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b f b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . . f b b f . .
-            . . f b b f . .
-            . . . f f . . .
-            . . . f f . . .
-            . . . . . . . .
-        `;
-
-        static SUBMARINE_V: Image = img`
-            . . . . . . . .
-            . . . f f . . .
-            . . f b b f . .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . . f b b f . .
-            . . f f f f . .
-            . . . f f . . .
-            . . f b b f . .
-            . . f f f f . .
-            . . . . . . . .
-        `;
-
-        static BATTLESHIP_V: Image = img`
-            . . . . . . . .
-            . . . f f . . .
-            . . . f f . . .
-            . . f b b f . .
-            . . f b b f . .
-            . . f b b f . .
-            . f b b b b f .
-            . f b f f b f .
-            . f b f f b f .
-            . f f f f f f .
-            . f b b b b f .
-            . f b f f b f .
-            . f f c c f f .
-            . f f c c f f .
-            . f f c c f f .
-            . f f c c f f .
-            . f f c c f f .
-            . f b f f b f .
-            . f b b b b f .
-            . f f f f f f .
-            . f b f f b f .
-            . f b f f b f .
-            . f b b b b f .
-            . . f b b f . .
-            . . f b b f . .
-            . . f b b f . .
-            . . . f f . . .
-            . . . f f . . .
-            . . . . . . . .
-        `;
-
-        static AIRCRAFT_CARRIER_V: Image = img`
-            . . . . . . . .
-            . f f f f f . .
-            . f b b b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b f b b f .
-            . f b f b b f .
-            . f b b b b f .
-            . f b b b b f .
-            . f f f f f f .
-            . f c c c c f .
-            . f c c c c f .
-            . f f f f f f .
-            . f b f f b f .
-            . f b b b b f .
-            . f b b b f . .
-            . f b f b f . .
-            . f b f b f . .
-            . f b b b f . .
-            . f f f f . . .
-            . . . . . . . .
-        `;
-
-        static SHIP_IMAGES_V: Image[] = [
-            Ship.PATROL_BOAT_V,
-            Ship.CRUISER_V,
-            Ship.SUBMARINE_V,
-            Ship.BATTLESHIP_V,
-            Ship.AIRCRAFT_CARRIER_V,
-        ]
-
-        static SHIP_IMAGES_H: Image[] = [
-            Ship.PATROL_BOAT_H,
-            Ship.CRUISER_H,
-            Ship.SUBMARINE_H,
-            Ship.BATTLESHIP_H,
-            Ship.AIRCRAFT_CARRIER_H,
-        ]
-
-        constructor() {
-        }
-
         PATROL_BOAT_H: Image = img`
             . . . . . . . . . . . . . . .
             . f f f f f f f f f f f . . .
@@ -565,5 +350,147 @@ namespace BattleshipImages {
             . . . . . . f f f f f f f f f f f f f f f f f f f f f f f f f f f f . .
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
         `;
+
+        PATROL_BOAT_V: Image = img`
+            . . . . . . . .
+            . . . f f . . .
+            . . f b b f . .
+            . f b b b b f .
+            . f b 9 9 b f .
+            . f 9 c c 9 f .
+            . f c c c c f .
+            . f c c c c f .
+            . f c c c c f .
+            . f b c c b f .
+            . f b c c b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f f f f f f .
+            . . . . . . . .
+        `;
+
+        CRUISER_V: Image = img`
+            . . . . . . . .
+            . . . f f . . .
+            . . . f f . . .
+            . . f b b f . .
+            . . f b b f . .
+            . f b b b b f .
+            . f f f f f f .
+            . f b b b b f .
+            . f b f f b f .
+            . f b b b b f .
+            . f f f f f f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b f b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . . f b b f . .
+            . . f b b f . .
+            . . . f f . . .
+            . . . f f . . .
+            . . . . . . . .
+        `;
+
+        SUBMARINE_V: Image = img`
+            . . . . . . . .
+            . . . f f . . .
+            . . f b b f . .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . . f b b f . .
+            . . f f f f . .
+            . . . f f . . .
+            . . f b b f . .
+            . . f f f f . .
+            . . . . . . . .
+        `;
+
+        BATTLESHIP_V: Image = img`
+            . . . . . . . .
+            . . . f f . . .
+            . . . f f . . .
+            . . f b b f . .
+            . . f b b f . .
+            . . f b b f . .
+            . f b b b b f .
+            . f b f f b f .
+            . f b f f b f .
+            . f f f f f f .
+            . f b b b b f .
+            . f b f f b f .
+            . f f c c f f .
+            . f f c c f f .
+            . f f c c f f .
+            . f f c c f f .
+            . f f c c f f .
+            . f b f f b f .
+            . f b b b b f .
+            . f f f f f f .
+            . f b f f b f .
+            . f b f f b f .
+            . f b b b b f .
+            . . f b b f . .
+            . . f b b f . .
+            . . f b b f . .
+            . . . f f . . .
+            . . . f f . . .
+            . . . . . . . .
+        `;
+
+        AIRCRAFT_CARRIER_V: Image = img`
+            . . . . . . . .
+            . f f f f f . .
+            . f b b b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b f b b f .
+            . f b f b b f .
+            . f b b b b f .
+            . f b b b b f .
+            . f f f f f f .
+            . f c c c c f .
+            . f c c c c f .
+            . f f f f f f .
+            . f b f f b f .
+            . f b b b b f .
+            . f b b b f . .
+            . f b f b f . .
+            . f b f b f . .
+            . f b b b f . .
+            . f f f f . . .
+            . . . . . . . .
+        `;
+
+        constructor() {
+        }
     }
 }

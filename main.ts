@@ -3,6 +3,7 @@ enum GameScene {
     DeployingShips,
     PlayerTurn,
     EnemyTurn,
+    Results,
 }
 
 /** Initialize */
@@ -48,6 +49,7 @@ let playerCursor: Sprite = null
 let playerCurosrPosX: number = 0
 let playerCurosrPosY: number = 0
 let enemyCursor: Sprite = null
+let win: boolean = false
 
 /**  
  * Set Turn Text Sprites
@@ -125,8 +127,8 @@ function playerTurnAction() {
     }
 
     if(enemyStatus.wiped()){
-        pause(1000)
-        game.over(true)
+        win = true
+        gameOver()
     }else{
         enemyTurnAction()
     }
@@ -168,8 +170,8 @@ function enemyTurnAction() {
     }
 
     if(playerStatus.wiped()){
-        pause(1000)
-        game.over(false)
+        win = false
+        gameOver()
     }else{
         pause(300)
         enemyCursor.setFlag(SpriteFlag.Invisible, true)
@@ -179,6 +181,13 @@ function enemyTurnAction() {
     }
 }
 
+function gameOver() {
+    currentScene = GameScene.Results
+    pause(1000)
+    visibleEnemyShips(true)
+    changeEnemyShipsColor()
+}
+
 controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
     if(GameScene.DeployingShips == currentScene) {
         startGame()           
@@ -186,19 +195,15 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
         playerTurnAction()        
     }else if(GameScene.EnemyTurn == currentScene) {
         return
+    }else if(GameScene.Results == currentScene) {
+        game.over(win)
     }
 })
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
     if(GameScene.DeployingShips == currentScene) {
         redeployPlayerShips(playerShipMap)
+    }else if(GameScene.Results == currentScene) {
+        game.over(win)
     }
-
 })
-
-
-
-
-
-
-
