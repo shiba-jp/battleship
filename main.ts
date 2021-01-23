@@ -183,7 +183,13 @@ function enemyTurnAction() {
 
 function gameOver() {
     currentScene = GameScene.Results
+    playerAttacksText.destroy()
+    enemyAttacksText.destroy()
     pause(1000)
+
+    let resultText = textsprite.create(win ? "PLAYER WINS!" : "ENEMY WINS!")
+    resultText.setMaxFontHeight(5)
+    resultText.setPosition(80, 86)
     visibleEnemyShips(true)
     changeEnemyShipsColor()
 }
