@@ -454,12 +454,12 @@ class EnemyAI {
                     if(this.enemyStrategyMap[minX + 1][minY] == null) {
                         nextX = minX + 1
                         nextY = minY
-                    }else if(this.enemyStrategyMap[minX - 1][minY] == null) {
-                        nextX = minX - 1
-                        nextY = minY
                     }else if(this.enemyStrategyMap[minX][minY - 1] == null) {
                         nextX = minX
                         nextY = minY - 1
+                    }else if(this.enemyStrategyMap[minX - 1][minY] == null) {
+                        nextX = minX - 1
+                        nextY = minY
                     }else if(this.enemyStrategyMap[minX][minY + 1] == null) {
                         nextX = minX
                         nextY = minY + 1

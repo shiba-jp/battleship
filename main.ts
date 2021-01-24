@@ -10,6 +10,7 @@ enum GameScene {
 music.setVolume(148)
 let currentScene: GameScene = GameScene.Title
 let backGround: BattleshipImages.Background = new BattleshipImages.Background()
+let vibrationPin: DigitalInOutPin = pins.pinByCfg(DAL.CFG_PIN_VIBRATION);
 
 /**
  * Title
@@ -171,13 +172,19 @@ function enemyTurnAction() {
         hit.startEffect(effects.fire, 300)
         hit.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, posX - 3, posY - 3)
+
+        if(vibrationPin) {
+            vibrationPin.digitalWrite(true);
+            playerStatus.getShipLife(shipType) == 0 ? pause(50) : pause(30)
+            vibrationPin.digitalWrite(false);
+        }
     }
 
     if(playerStatus.wiped()){
         win = false
         gameOver()
     }else{
-        pause(300)
+        pause(280)
         enemyCursor.setFlag(SpriteFlag.Invisible, true)
         pause(200)
         currentScene = GameScene.PlayerTurn

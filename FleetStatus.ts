@@ -83,6 +83,30 @@ class FleetStatus {
     constructor() {
     }
 
+    public getShipLife(shipType: ShipType): number {
+        let life: number = 0
+
+        switch(shipType) {
+            case ShipType.PatrolBoat:
+                life = this._patrolBoatLife
+                break
+            case ShipType.Cruiser:
+                life = this._cruiserLife
+                break
+            case ShipType.Submarine:
+                life = this._submarineLife
+                break
+            case ShipType.Battleship:
+                life = this._battleshipLife
+                break
+            case ShipType.AircraftCarrier:
+                life = this._aircraftcarrierLife
+                break
+        }
+
+        return life
+    }
+
     public hit(shiptype: ShipType) {
         switch(shiptype) {
             case ShipType.PatrolBoat:
