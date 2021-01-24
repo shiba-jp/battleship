@@ -130,7 +130,6 @@ function playerTurnAction() {
         win = true
         gameOver()
     }else{
-        pause(400)
         enemyTurnAction()
     }
 }
@@ -140,6 +139,7 @@ let enemyCount: number = 0
 function enemyTurnAction() {
     currentScene = GameScene.EnemyTurn
     displayAttacksText()
+    pause(300)
     
     let nextPosStr: string = enemy.getNextPos();
     enemyCount++

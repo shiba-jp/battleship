@@ -170,6 +170,7 @@ class EnemyAI {
     constructor() {
         utility.initilaizeMap(this.enemyStrategyMap)
         this.createPosList()
+        this.evaluationPos()
     }
 
     private createPosList() {
@@ -248,7 +249,6 @@ class EnemyAI {
                 if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
                 if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
                 if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-
             },
             () => {
                 if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
@@ -322,11 +322,7 @@ class EnemyAI {
         let yCount = this.countSpaceY(x, y)
 
         if( xCount < shipLength && yCount < shipLength) {
-            console.logValue("x", x)
-            console.logValue("y", y)
-            console.logValue("xCount", xCount)
-            console.logValue("yCount", yCount)
-            console.logValue("shipLength", shipLength)
+            console.log(`x:${x},y:${y},xCount:${xCount},yCount:${yCount},shipLength:${shipLength}`)
         }
 
         return xCount >= shipLength || yCount >= shipLength 
@@ -517,21 +513,22 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
-            if(this.evalutionList.some(p => p.evaluationValue == 8)) {
-                return this.evalutionList.find(p => p.evaluationValue == 8).pos
-            }else if(this.evalutionList.some(p => p.evaluationValue == 4)) {
-                return this.evalutionList.find(p => p.evaluationValue == 4).pos
-            }else if(this.evalutionList.some(p => p.evaluationValue == 3)) {
-                return this.evalutionList.find(p => p.evaluationValue == 3).pos
-            }else if(this.evalutionList.some(p => p.evaluationValue == 2)) {
-                return this.evalutionList.find(p => p.evaluationValue == 2).pos
-            }else {
-              let posString: string = this.posList[0]
-                return posString  
-            }
-            //let posString: string = this.posList[0]
-            //return posString
+            let nextPos: Pos = this.evalutionList.find(p => p.evaluationValue == this.getMaxEvaluationValue())
+            console.log(`${nextPos.pos}, ${nextPos.evaluationValue}`)
+            return nextPos.pos
         }
+    }
+
+    getMaxEvaluationValue(): number {
+        let evalValue: number = 0
+
+        this.evalutionList.forEach(pos => {
+            if(pos.evaluationValue > evalValue ) {
+                evalValue = pos.evaluationValue
+            }
+        })
+
+        return evalValue
     }
 
     getPosX(posString: string): number {
