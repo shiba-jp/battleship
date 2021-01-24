@@ -10,7 +10,18 @@ enum GameScene {
 music.setVolume(148)
 let currentScene: GameScene = GameScene.Title
 let backGround: BattleshipImages.Background = new BattleshipImages.Background()
-let vibrationPin: DigitalInOutPin = pins.pinByCfg(DAL.CFG_PIN_VIBRATION);
+
+/** Vibration Settings */
+//let vibrationPin: DigitalInOutPin = pins.pinByCfg(DAL.CFG_PIN_VIBRATION);
+function bomb(shipType: ShipType) {
+    /** 
+    if(vibrationPin) {
+        vibrationPin.digitalWrite(true);
+        playerStatus.getShipLife(shipType) == 0 ? pause(50) : pause(30)
+        vibrationPin.digitalWrite(false);
+    }
+    */
+}
 
 /**
  * Title
@@ -79,7 +90,7 @@ function displayAttacksText() {
 function startGame() {
     let playerFistMove: boolean = ShipOwner.Player == randint(0, 1)
     let subTiltle: string = playerFistMove ? "PLAYER" : "ENEMY"
-    subTiltle = subTiltle + "'S FIRST MOVE"
+    subTiltle = `${subTiltle}'S FIRST MOVE`
     
     game.splash("GAME START", subTiltle)
     prepareCursor()
@@ -172,12 +183,7 @@ function enemyTurnAction() {
         hit.startEffect(effects.fire, 300)
         hit.destroy()
         utility.drawImage(BattleshipImages.MapItem.ATTACK_HIT, posX - 3, posY - 3)
-
-        if(vibrationPin) {
-            vibrationPin.digitalWrite(true);
-            playerStatus.getShipLife(shipType) == 0 ? pause(50) : pause(30)
-            vibrationPin.digitalWrite(false);
-        }
+        bomb(shipType)
     }
 
     if(playerStatus.wiped()){

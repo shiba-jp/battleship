@@ -206,7 +206,272 @@ class EnemyAI {
             this.removeImpossiblePos()
         }
 
-        this.evaluationPos()
+        this.evaluationPos2()
+    }
+
+    evaluationPos2() {
+        this.evalutionList = []
+
+        this.posList.forEach(pos => {
+            let x: number = this.getPosX(pos)
+            let y: number = this.getPosY(pos)
+            let value: number = 0
+ 
+            utility.procAllPtn(x, y, 
+            () => {
+                //left top
+                if(this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 2
+                }
+                if(this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 1
+                }
+            },
+            () => {
+                //right top  
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss) {
+                    value = 2
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == null) {
+                    value = 1
+                }
+            },
+            () => {
+                //left bottom
+                if(this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss) {
+                    value = 2
+                }
+                if(this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null) {
+                    value = 1
+                }
+            },
+            () => {
+                //right bottom
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss) {
+                    value = 2
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == null) {
+                    value = 3
+                }
+            },
+            () => {
+                //left side
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 3
+                }
+            },
+            () => {
+                //right side
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x - 1][y + 1] == null) {
+                    value = 3
+                }
+            },
+            () => {
+                //top side
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 3
+                }
+            },
+            () => {
+                //bottom side
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x - 1][y] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y - 1] == null) {
+                    value = 3
+                }
+            },
+            () => {
+                //inside
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 5
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 3
+                }
+            })
+
+            this.evalutionList.push(new Pos(pos, value))
+        })
     }
 
     evaluationPos() {
@@ -540,7 +805,7 @@ class EnemyAI {
     }
 
     getPosString(x: number, y: number): string {
-        return x + "_" + y
+        return `${x}_${y}`
     }
 
     countSpaceX(x: number, y: number): number {
