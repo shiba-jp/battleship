@@ -54,10 +54,11 @@ function prepareCursor() {
     })
 }
 
-function redeployPlayerShips(shipMap: number[][]) {
+function redeployPlayerShips(playerShipMap: number[][], enemyShipMap: number[][]) {
     backGround = new BattleshipImages.Background()
     scene.setBackgroundImage(backGround.MAIN_SCREEN)
-    deployPlayerShips(shipMap)
+    deployPlayerShips(playerShipMap)
+    deployEnemyShips(enemyShipMap)
 }
 
 function deployPlayerShips(shipMap: number[][]) {
@@ -80,6 +81,12 @@ let e_aircraftCarrier: ShipContext
 
 function deployEnemyShips(shipMap: number[][]) {
     utility.initilaizeMap(shipMap)
+
+    if(e_patrolBoat != null) e_patrolBoat.destroyShipSprite()
+    if(e_cruiser != null) e_cruiser.destroyShipSprite()
+    if(e_submarine != null) e_submarine.destroyShipSprite()
+    if(e_battleship != null) e_battleship.destroyShipSprite()
+    if(e_aircraftCarrier != null) e_aircraftCarrier.destroyShipSprite()
 
     e_aircraftCarrier = new ShipContext(ShipType.AircraftCarrier, ShipOwner.Enemy, shipMap)
     e_battleship = new ShipContext(ShipType.Battleship, ShipOwner.Enemy, shipMap)

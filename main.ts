@@ -236,7 +236,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function() {
     if(GameScene.DeployingShips == currentScene) {
-        redeployPlayerShips(playerShipMap)
+        redeployPlayerShips(playerShipMap, enemyShipMap)
     }else if(GameScene.Results == currentScene) {
         game.over(win)
     }

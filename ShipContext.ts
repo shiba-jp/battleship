@@ -50,6 +50,12 @@ class ShipContext {
         this.deploy(shipMap)
     }
 
+    public destroyShipSprite() {
+        if(this._shipSprite != null) {
+            this._shipSprite.destroy()
+        } 
+    }
+
     private getShuffledNum(length: number): number {
         let result: number[] = []
         for(let i = 0; i < length; i++) {
@@ -94,6 +100,7 @@ class ShipContext {
                 scene.backgroundImage().drawTransparentImage(shipImage, imgStartX + (posX * 7), 7 + (posY * 7))
             }else {
                 if(randint(0, 1) == 1) shipImage = shipImage.rotated(180)
+                
                 this._shipSprite = sprites.create(shipImage)
                 let spriteX: number = 0
                 let spriteY: number = 0
@@ -133,7 +140,11 @@ class ShipContext {
                     canPlace = false
                     break
                 }
-               if(posY > 0 && posY < 9 && (shipMap[i][posY - 1] != null || shipMap[i][posY + 1] != null)) {
+                if(posY > 1 && posY < 8 && (shipMap[i][posY - 2] != null || shipMap[i][posY + 2] != null)) {
+                    canPlace = false
+                    break
+                }
+                if(posY > 0 && posY < 9 && (shipMap[i][posY - 1] != null || shipMap[i][posY + 1] != null)) {
                     canPlace = false
                     break
                 }
@@ -148,6 +159,34 @@ class ShipContext {
             if(posX > 0 && posX + shipLength - 1 < 9 && (shipMap[posX - 1][posY] != null 
             || shipMap[posX + shipLength][posY] != null)) {
                 canPlace = false
+            }
+
+            if(posY >= 0 && posY < 9) {
+                if(posX == 0 && shipMap[posX + shipLength][posY + 1] != null) {
+                    canPlace = false
+                }
+                if(posX + shipLength - 1 == 9 && shipMap[posX - 1][posY + 1] != null) {
+                    canPlace = false
+                }
+                if(posX > 0 && posX + shipLength - 1 < 9 && (shipMap[posX - 1][posY + 1] != null 
+                || shipMap[posX + shipLength][posY + 1] != null)) {
+                    canPlace = false
+                }
+            }
+            if(posY > 0 && posY <= 9) {
+                if(posX == 0 && shipMap[posX + shipLength][posY - 1] != null) {
+                    canPlace = false
+                }
+                if(posX == 0 && shipMap[posX + shipLength][posY - 1] != null) {
+                    canPlace = false
+                }
+                if(posX + shipLength - 1 == 9 && shipMap[posX - 1][posY - 1] != null) {
+                    canPlace = false
+                }
+                if(posX > 0 && posX + shipLength - 1 < 9 && (shipMap[posX - 1][posY - 1] != null 
+                || shipMap[posX + shipLength][posY + 1] != null)) {
+                    canPlace = false
+                }
             }
         }else if(this._derection == ShipDirection.Vertical) {
             for(let j = posY; j < posY + shipLength; j++) {
@@ -166,10 +205,14 @@ class ShipContext {
                     canPlace = false
                     break
                 }
+                if(posX > 1 && posX < 8 && (shipMap[posX - 2][j] != null || shipMap[posX + 2][j] != null)) {
+                    canPlace = false
+                    break
+                }
                 if(posX > 0 && posX < 9 && (shipMap[posX - 1][j] != null || shipMap[posX + 1][j] != null)) {
                     canPlace = false
                     break
-                }  
+                }
             }
 
             // 列が隣り合っている場合はダメ
@@ -182,6 +225,30 @@ class ShipContext {
             if(posY > 0 && posY + shipLength - 1 < 9 && (shipMap[posX][posY - 1] != null 
             || shipMap[posX][posY + shipLength] != null)) {
                 canPlace = false
+            }
+            if(posX >= 0 && posX < 9) {
+                if(posY == 0 && shipMap[posX + 1][posY + shipLength] != null) {
+                    canPlace = false
+                }
+                if(posY + shipLength - 1 == 9 && shipMap[posX + 1][posY - 1] != null) {
+                    canPlace = false
+                }
+                if(posY > 0 && posY + shipLength - 1 < 9 && (shipMap[posX + 1][posY - 1] != null 
+                || shipMap[posX + 1][posY + shipLength] != null)) {
+                    canPlace = false
+                }
+            }
+            if(posX > 0 && posX <= 9) {
+                if(posY == 0 && shipMap[posX - 1][posY + shipLength] != null) {
+                    canPlace = false
+                }
+                if(posY + shipLength - 1 == 9 && shipMap[posX - 1][posY - 1] != null) {
+                    canPlace = false
+                }
+                if(posY > 0 && posY + shipLength - 1 < 9 && (shipMap[posX - 1][posY - 1] != null 
+                || shipMap[posX - 1][posY + shipLength] != null)) {
+                    canPlace = false
+                }
             }
         }
 

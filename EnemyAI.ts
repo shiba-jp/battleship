@@ -167,10 +167,16 @@ class EnemyAI {
 
     evalutionList: Pos[] = []
 
+    startX: number = randint(0,2)
+
+    startY: number = randint(0,2)
+
+    attackCounter: number = 0
+
     constructor() {
         utility.initilaizeMap(this.enemyStrategyMap)
         this.createPosList()
-        this.evaluationPos()
+        this.evaluationPos2()
     }
 
     private createPosList() {
@@ -207,7 +213,9 @@ class EnemyAI {
         }
 
         this.evaluationPos2()
+        if(this.attackCounter == 5) this.attackCounter = 0
     }
+
 
     evaluationPos2() {
         this.evalutionList = []
@@ -466,7 +474,7 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 3
+                    this.attackCounter == 5 ? value = 10 : value = 3
                 }
             })
 
@@ -778,6 +786,7 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
+            this.attackCounter++;
             let nextPos: Pos = this.evalutionList.find(p => p.evaluationValue == this.getMaxEvaluationValue())
             console.log(`${nextPos.pos}, ${nextPos.evaluationValue}`)
             return nextPos.pos
