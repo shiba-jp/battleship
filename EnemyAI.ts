@@ -167,16 +167,10 @@ class EnemyAI {
 
     evalutionList: Pos[] = []
 
-    startX: number = randint(0,2)
-
-    startY: number = randint(0,2)
-
-    attackCounter: number = 0
 
     constructor() {
         utility.initilaizeMap(this.enemyStrategyMap)
         this.createPosList()
-        this.evaluationPos2()
     }
 
     private createPosList() {
@@ -212,12 +206,11 @@ class EnemyAI {
             this.removeImpossiblePos()
         }
 
-        this.evaluationPos2()
-        if(this.attackCounter == 5) this.attackCounter = 0
+        this.evaluationPos3()
+        //if(this.attackCounter == 5) this.attackCounter = 0
     }
 
-
-    evaluationPos2() {
+    evaluationPos3() {
         this.evalutionList = []
 
         this.posList.forEach(pos => {
@@ -238,6 +231,13 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
                     value = 1
                 }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y + 1] == null) value = 1
+                    if(this.enemyStrategyMap[x + 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
+                }
             },
             () => {
                 //right top  
@@ -250,6 +250,13 @@ class EnemyAI {
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == null) {
                     value = 1
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y + 1] == null) value = 1
+                    if(this.enemyStrategyMap[x - 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
                 }
             },
             () => {
@@ -264,6 +271,13 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null) {
                     value = 1
                 }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y - 1] == null) value = 1
+                    if(this.enemyStrategyMap[x + 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
+                }
             },
             () => {
                 //right bottom
@@ -277,6 +291,13 @@ class EnemyAI {
                 && this.enemyStrategyMap[x - 1][y - 1] == null) {
                     value = 3
                 }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y - 1] == null) value = 1
+                    if(this.enemyStrategyMap[x - 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
+                }
             },
             () => {
                 //left side
@@ -285,21 +306,28 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 5
+                    value = 3
                 }
                 if(this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 3
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 3
+                    value = 5
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y - 1] == null && this.enemyStrategyMap[x][y + 1] == null) value = 1 
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
                 }
             },
             () => {
@@ -309,7 +337,7 @@ class EnemyAI {
                 && this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss) {
-                    value = 5
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x][y + 1] == null
@@ -323,7 +351,14 @@ class EnemyAI {
                 && this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x - 1][y + 1] == null) {
-                    value = 3
+                    value = 5
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x][y - 1] == null && this.enemyStrategyMap[x][y + 1] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
                 }
             },
             () => {
@@ -333,21 +368,28 @@ class EnemyAI {
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 5
+                    value = 3
                 }
                 if(this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x - 1][y + 1] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 3
+                    value = 5
                 }
                 if(this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 3
+                    value = 4
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x - 1][y] == null && this.enemyStrategyMap[x + 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
                 }
             },
             () => {
@@ -357,21 +399,28 @@ class EnemyAI {
                 && this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss) {
-                    value = 5
+                    value = 3
                 }
                 if(this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss) {
-                    value = 3
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x - 1][y] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y - 1] == null) {
-                    value = 3
+                    value = 5
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x - 1][y] == null && this.enemyStrategyMap[x + 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
                 }
             },
             () => {
@@ -384,41 +433,11 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 4
+                    value = 3
                 }
                 if(this.enemyStrategyMap[x - 1][y - 1] == null 
                 && this.enemyStrategyMap[x - 1][y] == null 
                 && this.enemyStrategyMap[x - 1][y + 1] == null
-                && this.enemyStrategyMap[x][y - 1] == null
-                && this.enemyStrategyMap[x][y + 1] == null
-                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
-                && this.enemyStrategyMap[x + 1][y] == null
-                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 4
-                }
-                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
-                && this.enemyStrategyMap[x - 1][y] == null 
-                && this.enemyStrategyMap[x - 1][y + 1] == null
-                && this.enemyStrategyMap[x][y - 1] == null
-                && this.enemyStrategyMap[x][y + 1] == null
-                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
-                && this.enemyStrategyMap[x + 1][y] == null
-                && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 4
-                }
-                if(this.enemyStrategyMap[x - 1][y - 1] == null 
-                && this.enemyStrategyMap[x - 1][y] == null 
-                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
-                && this.enemyStrategyMap[x][y - 1] == null
-                && this.enemyStrategyMap[x][y + 1] == null
-                && this.enemyStrategyMap[x + 1][y - 1] == null
-                && this.enemyStrategyMap[x + 1][y] == null
-                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 4
-                }
-                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
-                && this.enemyStrategyMap[x - 1][y] == null 
-                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
                 && this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
@@ -431,6 +450,36 @@ class EnemyAI {
                 && this.enemyStrategyMap[x - 1][y + 1] == null
                 && this.enemyStrategyMap[x][y - 1] == null
                 && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 3
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 2
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
@@ -444,7 +493,7 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 5
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x - 1][y - 1] == null 
                 && this.enemyStrategyMap[x - 1][y] == null 
@@ -454,7 +503,7 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    value = 5
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x - 1][y - 1] == null 
                 && this.enemyStrategyMap[x - 1][y] == null 
@@ -464,7 +513,7 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
-                    value = 5
+                    value = 4
                 }
                 if(this.enemyStrategyMap[x - 1][y - 1] == null 
                 && this.enemyStrategyMap[x - 1][y] == null 
@@ -474,103 +523,104 @@ class EnemyAI {
                 && this.enemyStrategyMap[x + 1][y - 1] == null
                 && this.enemyStrategyMap[x + 1][y] == null
                 && this.enemyStrategyMap[x + 1][y + 1] == null) {
-                    this.attackCounter == 5 ? value = 10 : value = 3
+                    value = 4
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == null 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x][y + 1] == null
+                && this.enemyStrategyMap[x + 1][y - 1] == null
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == ShipType.Miss) {
+                    value = 1
+                }
+                if(this.enemyStrategyMap[x - 1][y - 1] == ShipType.Miss 
+                && this.enemyStrategyMap[x - 1][y] == null 
+                && this.enemyStrategyMap[x - 1][y + 1] == null
+                && this.enemyStrategyMap[x][y - 1] == null
+                && this.enemyStrategyMap[x][y + 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y - 1] == ShipType.Miss
+                && this.enemyStrategyMap[x + 1][y] == null
+                && this.enemyStrategyMap[x + 1][y + 1] == null) {
+                    value = 1
+                }
+
+                if(value == 0) {
+                    if(this.enemyStrategyMap[x - 1][y] == null 
+                    && this.enemyStrategyMap[x + 1][y] == null  
+                    && this.enemyStrategyMap[x - 1][y] == null 
+                    && this.enemyStrategyMap[x + 1][y] == null) value = 2
+                    if(this.enemyStrategyMap[x - 1][y] == null && this.enemyStrategyMap[x + 1][y] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] == null && this.enemyStrategyMap[x][y + 1] == null) value = 1
+                    if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) value = -1
+                    if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) value = -1
                 }
             })
 
             this.evalutionList.push(new Pos(pos, value))
-        })
-    }
-
-    evaluationPos() {
-        this.evalutionList = []
-
-        this.posList.forEach(pos => {
-            let x: number = this.getPosX(pos)
-            let y: number = this.getPosY(pos)
-            let nullCount: number = 0
-
-            utility.procAllPtn(x, y, 
-            () => {
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-            },
-            () => {
-                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
-                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
-                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
-                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
-                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
-
-                if(this.posList.length >= 80) {
-                    if(this.enemyStrategyMap[x - 1][y - 1] == null) nullCount++
-                    if(this.enemyStrategyMap[x + 1][y - 1] == null) nullCount++
-                    if(this.enemyStrategyMap[x - 1][y + 1] == null) nullCount++
-                    if(this.enemyStrategyMap[x + 1][y + 1] == null) nullCount++
-                }
-            })
-
-            if(this.evalutionList.some(p => p.pos == pos)){
-                let el: Pos = this.evalutionList.find(p => p.pos == pos)
-                el.evaluationValue = nullCount
-            }else{
-                this.evalutionList.push(new Pos(pos, nullCount))
-            }
         })
     }
 
@@ -595,7 +645,7 @@ class EnemyAI {
         let yCount = this.countSpaceY(x, y)
 
         if( xCount < shipLength && yCount < shipLength) {
-            console.log(`x:${x},y:${y},xCount:${xCount},yCount:${yCount},shipLength:${shipLength}`)
+            console.log(`[removeImpossiblePos]x:${x},y:${y},xCount:${xCount},yCount:${yCount},shipLength:${shipLength}`)
         }
 
         return xCount >= shipLength || yCount >= shipLength 
@@ -786,10 +836,13 @@ class EnemyAI {
                 return this.getPosString(nextX, nextY)
             }            
         }else {
-            this.attackCounter++;
-            let nextPos: Pos = this.evalutionList.find(p => p.evaluationValue == this.getMaxEvaluationValue())
-            console.log(`${nextPos.pos}, ${nextPos.evaluationValue}`)
-            return nextPos.pos
+            if(this.evalutionList.length == 0) {
+                return this.getPosString(randint(0,5), randint(0,5))
+            }else {
+                let nextPos: Pos = this.evalutionList.find(p => p.evaluationValue == this.getMaxEvaluationValue())
+                console.log(`${nextPos.pos}, ${nextPos.evaluationValue}`)
+                return nextPos.pos
+            }
         }
     }
 
@@ -898,5 +951,97 @@ class EnemyAI {
             
             return ySpaceCount + 1
         }
+    }
+
+    evaluationPos() {
+        this.evalutionList = []
+
+        this.posList.forEach(pos => {
+            let x: number = this.getPosX(pos)
+            let y: number = this.getPosY(pos)
+            let nullCount: number = 0
+
+            utility.procAllPtn(x, y, 
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+            },
+            () => {
+                if(this.enemyStrategyMap[x][y - 1] == null) nullCount++
+                if(this.enemyStrategyMap[x][y + 1] == null) nullCount++
+                if(this.enemyStrategyMap[x - 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x + 1][y] == null) nullCount++
+                if(this.enemyStrategyMap[x][y - 1] != null && this.enemyStrategyMap[x][y - 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x][y + 1] != null && this.enemyStrategyMap[x][y + 1] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x - 1][y] != null && this.enemyStrategyMap[x - 1][y] != ShipType.Miss) nullCount--
+                if(this.enemyStrategyMap[x + 1][y] != null && this.enemyStrategyMap[x + 1][y] != ShipType.Miss) nullCount--
+
+                if(this.posList.length >= 80) {
+                    if(this.enemyStrategyMap[x - 1][y - 1] == null) nullCount++
+                    if(this.enemyStrategyMap[x + 1][y - 1] == null) nullCount++
+                    if(this.enemyStrategyMap[x - 1][y + 1] == null) nullCount++
+                    if(this.enemyStrategyMap[x + 1][y + 1] == null) nullCount++
+                }
+            })
+
+            if(this.evalutionList.some(p => p.pos == pos)){
+                let el: Pos = this.evalutionList.find(p => p.pos == pos)
+                el.evaluationValue = nullCount
+            }else{
+                this.evalutionList.push(new Pos(pos, nullCount))
+            }
+        })
     }
 }
