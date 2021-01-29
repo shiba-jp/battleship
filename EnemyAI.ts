@@ -690,7 +690,13 @@ class EnemyAI {
             if(target.direction() == HitShipDirection.Unknown) {
                 if(minX == 0 && minY == 0) {
                     //left top
-                    if(this.enemyStrategyMap[minX + 1][minY] == null) {
+                    if(this.enemyStrategyMap[minX + 1][minY] == null && this.enemyStrategyMap[minX + 2][minY] != null && this.enemyStrategyMap[minX + 2][minY] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else if(this.enemyStrategyMap[minX][minY + 1] == null && this.enemyStrategyMap[minX][minY + 2] != null && this.enemyStrategyMap[minX][minY + 2] != ShipType.Miss) {
+                        nextX = minX + 1
+                        nextY = minY
+                    }else if(this.enemyStrategyMap[minX + 1][minY] == null) {
                         nextX = minX + 1
                         nextY = minY
                     }else {
@@ -699,7 +705,13 @@ class EnemyAI {
                     }
                 }else if (maxX == 9 && minY == 0) {
                     //right top
-                    if(this.enemyStrategyMap[maxX - 1][minY] == null) {
+                    if(this.enemyStrategyMap[maxX - 1][minY] == null && this.enemyStrategyMap[maxX - 2][minY] != null && this.enemyStrategyMap[maxX - 2][minY] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else if(this.enemyStrategyMap[maxX][minY + 1] == null && this.enemyStrategyMap[maxX][minY + 2] != null && this.enemyStrategyMap[maxX][minY + 2] != ShipType.Miss) {
+                        nextX = minX - 1
+                        nextY = minY
+                    }else if(this.enemyStrategyMap[maxX - 1][minY] == null) {
                         nextX = minX - 1
                         nextY = minY
                     }else {
@@ -708,7 +720,13 @@ class EnemyAI {
                     }
                 }else if (minX == 0 && maxY == 9) {
                     //left bottom
-                    if(this.enemyStrategyMap[minX + 1][maxY] == null) {
+                    if(this.enemyStrategyMap[minX + 1][minY] == null && this.enemyStrategyMap[minX + 2][minY] != null && this.enemyStrategyMap[minX + 2][minY] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else if(this.enemyStrategyMap[minX][minY - 1] == null && this.enemyStrategyMap[minX][minY - 2] != null && this.enemyStrategyMap[minX][minY - 2] != ShipType.Miss) {
+                        nextX = minX + 1
+                        nextY = minY
+                    }else if(this.enemyStrategyMap[minX + 1][maxY] == null) {
                         nextX = minX + 1
                         nextY = maxY
                     }else {
@@ -717,7 +735,13 @@ class EnemyAI {
                     }
                 }else if (maxX == 9 && maxY == 9) {
                     //right bottom
-                    if(this.enemyStrategyMap[maxX - 1][maxY] == null) {
+                    if(this.enemyStrategyMap[maxX - 1][maxY] == null && this.enemyStrategyMap[maxX - 2][maxY] != null && this.enemyStrategyMap[maxX - 2][maxY] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else if(this.enemyStrategyMap[maxX][minY - 1] == null && this.enemyStrategyMap[maxX][minY - 2] != null && this.enemyStrategyMap[maxX][minY - 2] != ShipType.Miss) {
+                        nextX = minX - 1
+                        nextY = minY
+                    }else if(this.enemyStrategyMap[maxX - 1][maxY] == null) {
                         nextX = maxX - 1
                         nextY = maxY
                     }else {
@@ -729,7 +753,7 @@ class EnemyAI {
                     if(this.enemyStrategyMap[minX][minY + 1] == null) {
                         nextX = minX
                         nextY = minY + 1
-                    }else  if(this.enemyStrategyMap[minX][minY - 1] == null) {
+                    }else if(this.enemyStrategyMap[minX][minY - 1] == null) {
                         nextX = minX
                         nextY = minY - 1
                     }else {
@@ -774,7 +798,31 @@ class EnemyAI {
                     }
                 }else {
                     //inner
-                    if(this.enemyStrategyMap[minX + 1][minY] == null) {
+                    if(minX > 0 && minX < 8
+                    && this.enemyStrategyMap[minX + 1][minY] == null 
+                    && this.enemyStrategyMap[minX + 2][minY] != null 
+                    && this.enemyStrategyMap[minX + 2][minY] != ShipType.Miss) {
+                        nextX = minX - 1
+                        nextY = minY
+                    }else if(minX > 1 && minX < 9
+                    && this.enemyStrategyMap[minX - 1][minY] == null 
+                    && this.enemyStrategyMap[minX - 2][minY] != null 
+                    && this.enemyStrategyMap[minX - 2][minY] != ShipType.Miss) {
+                        nextX = minX + 1
+                        nextY = minY
+                    }else if(minY > 0 && minY < 8
+                    && this.enemyStrategyMap[minX][minY + 1] == null 
+                    && this.enemyStrategyMap[minX][minY + 2] != null 
+                    && this.enemyStrategyMap[minX][minY + 2] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY - 1
+                    }else if(minY > 1 && minY < 9
+                    && this.enemyStrategyMap[minX][minY - 1] == null 
+                    && this.enemyStrategyMap[minX][minY - 2] != null 
+                    && this.enemyStrategyMap[minX][minY - 2] != ShipType.Miss) {
+                        nextX = minX
+                        nextY = minY + 1
+                    }else if(this.enemyStrategyMap[minX + 1][minY] == null) {
                         nextX = minX + 1
                         nextY = minY
                     }else if(this.enemyStrategyMap[minX][minY - 1] == null) {
@@ -800,7 +848,15 @@ class EnemyAI {
                     nextX = minX - 1
                     nextY = minY
                 }
-                if(minX > 0 && maxX < 10) {
+                if(minX > 0 && maxX < 8
+                && (this.enemyStrategyMap[maxX + 2][minY] != null && this.enemyStrategyMap[maxX + 2][minY] != ShipType.Miss)) {
+                    nextX = minX - 1
+                    nextY = minY
+                } else if(minX > 1 && maxX < 9
+                && (this.enemyStrategyMap[minX - 2][minY] != null && this.enemyStrategyMap[minX - 2][minY] != ShipType.Miss)) {
+                    nextX = maxX + 1
+                    nextY = minY
+                }else if(minX > 0 && maxX < 10) {
                     if(this.enemyStrategyMap[minX - 1][minY] == null) {
                         nextX = minX - 1
                         nextY = minY
@@ -822,7 +878,15 @@ class EnemyAI {
                     nextX = minX
                     nextY = minY - 1
                 }
-                if(minY > 0 && maxY < 10) {
+                if(minY > 1 && maxY < 8
+                && (this.enemyStrategyMap[minX][maxY + 2] != null && this.enemyStrategyMap[minX][maxY + 2] != ShipType.Miss)) {
+                    nextX = minX
+                    nextY = minY - 1
+                } else if(minY > 1 && maxY < 9 
+                && (this.enemyStrategyMap[minX][minY - 2] != null && this.enemyStrategyMap[minX][minY - 2] != ShipType.Miss)) {
+                    nextX = minX
+                    nextY = maxY + 1
+                }else if(minY > 0 && maxY < 10) {
                     if(this.enemyStrategyMap[minX][minY - 1] == null) {
                         nextX = minX
                         nextY = minY - 1
@@ -837,7 +901,7 @@ class EnemyAI {
             }            
         }else {
             if(this.evalutionList.length == 0) {
-                return this.getPosString(randint(0,5), randint(0,5))
+                return this.getPosString(randint(0,4), randint(0,4))
             }else {
                 let nextPos: Pos = this.evalutionList.find(p => p.evaluationValue == this.getMaxEvaluationValue())
                 console.log(`${nextPos.pos}, ${nextPos.evaluationValue}`)
